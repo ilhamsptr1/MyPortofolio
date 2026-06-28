@@ -4,6 +4,8 @@ import { motion, Variants } from "framer-motion";
 import { Code2, Palette, Zap } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import SpotlightCard from "./SpotlightCard";
+import GlitchText from "./GlitchText";
+import DraggableWindow from "./DraggableWindow";
 
 const skills = [
   {
@@ -46,29 +48,19 @@ export default function About() {
         <div className="max-w-6xl mx-auto">
 
           {/* Section Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-4xl md:text-8xl font-black uppercase text-accent neo-shadow-text mb-8 md:mb-16"
-          >
-            About <span className="text-white">Me</span>
-          </motion.h2>
+          <h2 className="text-5xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter mb-12 md:mb-20">
+            <GlitchText text="ABOUT ME" />
+          </h2>
 
-          {/* Bio Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-white text-black rounded-3xl border-4 border-black shadow-neo-lg p-6 md:p-12 mb-8 md:mb-12"
-          >
-            <p className="text-base md:text-2xl font-bold leading-relaxed">
-              Saya <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Ilham Saputra</span>, mahasiswa Informatika{" "}
-              <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Universitas Gunadarma</span> yang memiliki passion dalam menciptakan website modern dengan desain elegan, performa tinggi, dan pengalaman pengguna yang optimal. Saya mengembangkan aplikasi menggunakan <span className="bg-black text-white px-2 rounded-md -rotate-2 inline-block shadow-[2px_2px_0px_#ccff00]">React</span>, <span className="bg-black text-white px-2 rounded-md rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">Next.js</span>, <span className="bg-black text-white px-2 rounded-md -rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">TypeScript</span>, serta teknologi frontend modern lainnya. Setiap proyek yang saya bangun mengutamakan kualitas kode, estetika desain, dan pengalaman pengguna yang maksimal.
-            </p>
-          </motion.div>
+          {/* Bio Card in Draggable Window */}
+          <DraggableWindow title="C:\\USERS\\ILHAM\\BIO.TXT" className="mb-8 md:mb-12">
+            <div className="bg-white text-black p-6 md:p-12">
+              <p className="text-base md:text-2xl font-bold leading-relaxed">
+                Saya <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Ilham Saputra</span>, mahasiswa Informatika{" "}
+                <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Universitas Gunadarma</span> yang memiliki passion dalam menciptakan website modern dengan desain elegan, performa tinggi, dan pengalaman pengguna yang optimal. Saya mengembangkan aplikasi menggunakan <span className="bg-black text-white px-2 rounded-md -rotate-2 inline-block shadow-[2px_2px_0px_#ccff00]">React</span>, <span className="bg-black text-white px-2 rounded-md rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">Next.js</span>, <span className="bg-black text-white px-2 rounded-md -rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">TypeScript</span>, serta teknologi frontend modern lainnya. Setiap proyek yang saya bangun mengutamakan kualitas kode, estetika desain, dan pengalaman pengguna yang maksimal.
+              </p>
+            </div>
+          </DraggableWindow>
 
           {/* Skill Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">

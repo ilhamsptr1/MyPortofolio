@@ -2,19 +2,26 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin } from "lucide-react";
+import { Send, Mail, MapPin, ArrowRight } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
+import GlitchText from "./GlitchText";
+import DraggableWindow from "./DraggableWindow";
 import MagneticWrapper from "./MagneticWrapper";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { playHover, playClick } = useThemeSound();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    playClick(); // Play click sound on submit
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setIsSubmitting(true);
+    playClick();
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+    }, 1500);
   };
 
   return (
@@ -23,26 +30,15 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto">
 
           {/* Section Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-4xl md:text-8xl font-black uppercase text-accent neo-shadow-text mb-8 md:mb-16"
-          >
-            Let&apos;s <span className="text-white">Talk</span>
-          </motion.h2>
+          <h2 className="text-6xl sm:text-7xl md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter mb-16 md:mb-24">
+            <GlitchText text="LET'S" /><br />
+            <GlitchText text="TALK" delay={0.2} />
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
 
             {/* Left Info Cards */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="md:col-span-2 flex flex-col gap-6"
-            >
+            <div className="flex flex-col gap-6">
               <div
                 onMouseEnter={playHover}
                 className="bg-accent text-black rounded-3xl border-4 border-black shadow-neo p-6 flex items-start gap-4 hover:-translate-y-1 hover:shadow-neo-lg transition-all duration-200"
@@ -84,80 +80,72 @@ export default function Contact() {
                   I&apos;m currently open for freelance projects, collaborations, and full-time opportunities. Let&apos;s create something amazing!
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="md:col-span-3"
-            >
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white text-black rounded-3xl border-4 border-black shadow-neo-lg p-8 flex flex-col gap-5"
-              >
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div className="flex flex-col gap-2">
-                    <label htmlFor="name" className="text-sm font-black uppercase tracking-wider">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      className="border-3 border-black rounded-2xl px-4 py-3 font-bold focus:outline-none focus:ring-4 focus:ring-[var(--theme-accent)] transition-all bg-white placeholder:text-gray-400 border-2"
-                      placeholder="Your Name"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label htmlFor="email" className="text-sm font-black uppercase tracking-wider">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      className="border-2 border-black rounded-2xl px-4 py-3 font-bold focus:outline-none focus:ring-4 focus:ring-[var(--theme-accent)] transition-all bg-white placeholder:text-gray-400"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                </div>
+            <div className="relative z-10 w-full md:col-span-1">
+              <DraggableWindow title="C:\\SYSTEM\\CONTACT.EXE" className="w-full">
+                <div className="bg-white text-black p-6 md:p-8 flex flex-col gap-5">
+                  {submitted ? (
+                    <div className="flex flex-col items-center justify-center text-center p-8 min-h-[300px]">
+                      <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center border-4 border-black shadow-neo mb-6">
+                        <Send className="w-8 h-8 text-black" />
+                      </div>
+                      <h3 className="text-3xl font-black uppercase mb-2 text-black">Message Sent!</h3>
+                      <p className="font-bold text-black/70">I&apos;ll get back to you as soon as possible.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                      <div className="grid md:grid-cols-2 gap-5">
+                        <div className="flex flex-col gap-2">
+                          <label htmlFor="name" className="text-sm font-black uppercase tracking-wider">Name</label>
+                          <input
+                            type="text"
+                            id="name"
+                            required
+                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30"
+                            placeholder="John Doe"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label htmlFor="email" className="text-sm font-black uppercase tracking-wider">Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            required
+                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30"
+                            placeholder="john@example.com"
+                          />
+                        </div>
+                      </div>
 
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="subject" className="text-sm font-black uppercase tracking-wider">Subject</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    required
-                    className="border-2 border-black rounded-2xl px-4 py-3 font-bold focus:outline-none focus:ring-4 focus:ring-[var(--theme-accent)] transition-all bg-white placeholder:text-gray-400"
-                    placeholder="Project Collaboration / Freelance / etc."
-                  />
-                </div>
+                      <div className="flex flex-col gap-2">
+                        <label htmlFor="message" className="text-sm font-black uppercase tracking-wider">Message</label>
+                        <textarea
+                          id="message"
+                          required
+                          rows={4}
+                          className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow resize-none placeholder:text-black/30"
+                          placeholder="Tell me about your project..."
+                        />
+                      </div>
 
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="message" className="text-sm font-black uppercase tracking-wider">Message</label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    required
-                    className="border-2 border-black rounded-2xl px-4 py-3 font-bold focus:outline-none focus:ring-4 focus:ring-[var(--theme-accent)] transition-all resize-none bg-white placeholder:text-gray-400"
-                    placeholder="Tell me about your project..."
-                  />
+                      <MagneticWrapper className="w-full">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          onMouseEnter={playHover}
+                          className="w-full bg-primary text-white border-4 border-black shadow-neo p-4 font-black uppercase tracking-widest text-lg hover:-translate-y-1 hover:shadow-neo-lg active:translate-y-1 active:shadow-none transition-all disabled:opacity-70 disabled:cursor-wait flex items-center justify-center gap-3"
+                        >
+                          {isSubmitting ? "Sending..." : "Send Message"}
+                          <ArrowRight className="w-5 h-5" />
+                        </button>
+                      </MagneticWrapper>
+                    </form>
+                  )}
                 </div>
-
-                <MagneticWrapper strength={20} className="w-full">
-                  <motion.button
-                    type="submit"
-                    onMouseEnter={playHover}
-                    whileHover={{ y: -3 }}
-                    whileTap={{ y: 2, boxShadow: "2px 2px 0px var(--theme-shadow)" }}
-                    className="w-full py-4 rounded-2xl bg-accent text-black font-black uppercase tracking-widest text-lg border-4 border-black shadow-neo flex items-center justify-center gap-3 transition-all duration-150"
-                  >
-                    {submitted ? "Message Sent! ✓" : (
-                      <>Send Message <Send className="w-5 h-5" /></>
-                    )}
-                  </motion.button>
-                </MagneticWrapper>
-              </form>
-            </motion.div>
+              </DraggableWindow>
+            </div>
 
           </div>{/* end grid */}
         </div>{/* end max-w-6xl */}

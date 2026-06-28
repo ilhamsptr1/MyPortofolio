@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import SpotlightCard from "./SpotlightCard";
+import GlitchText from "./GlitchText";
 
 const projects = [
   {
@@ -82,21 +83,15 @@ export default function Projects() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
 
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
-          >
-            <h2 className="text-4xl md:text-8xl font-black uppercase text-accent neo-shadow-text leading-none">
-              My <span className="text-white">Work</span>
+          {/* Section Heading */}
+          <div className="mb-12 md:mb-20">
+            <h2 className="text-5xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter">
+              <GlitchText text="MY PROJECTS" />
             </h2>
-            <p className="text-white/80 font-bold text-base md:text-lg max-w-sm">
-              A selection of recent projects — each one built with care, creativity, and clean code.
+            <p className="text-xl md:text-2xl mt-4 max-w-2xl text-white">
+              Beberapa hasil karya terbaik saya. Dibuat dengan cinta dan kode.
             </p>
-          </motion.div>
+          </div>
 
           {/* Project Grid */}
           <motion.div
