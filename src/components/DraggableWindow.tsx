@@ -12,8 +12,10 @@ interface DraggableWindowProps {
 export default function DraggableWindow({ title, children, className = "" }: DraggableWindowProps) {
   const windowRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const checkMobile = () => {
       setIsMobile(window.matchMedia("(max-width: 768px)").matches || window.matchMedia("(pointer: coarse)").matches);
     };
@@ -25,7 +27,7 @@ export default function DraggableWindow({ title, children, className = "" }: Dra
   return (
     <motion.div
       ref={windowRef}
-      drag={!isMobile} // Disable drag on mobile to prevent scroll issues
+      drag={isMounted && !isMobile} // Only enable drag after hydration to prevent CSS mismatch
       dragConstraints={{ left: -100, right: 100, top: -50, bottom: 50 }}
       dragElastic={0.1}
       whileDrag={{ scale: 1.02, cursor: "grabbing" }}
