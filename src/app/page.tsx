@@ -13,11 +13,13 @@ const Marquee = dynamic(() => import("@/components/Marquee"), { ssr: false });
 import About from "@/components/About";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import NoiseOverlay from "@/components/NoiseOverlay";
 
 export default function Home() {
   return (
     <ThemeSoundProvider>
       <Preloader />
+      <NoiseOverlay />
       <main className="relative w-full min-h-screen bg-grid">
         {/* Global Overlays */}
         <CursorTrail />

@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { Code2, Palette, Zap } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
+import SpotlightCard from "./SpotlightCard";
 
 const skills = [
   {
@@ -64,8 +65,8 @@ export default function About() {
             className="bg-white text-black rounded-3xl border-4 border-black shadow-neo-lg p-6 md:p-12 mb-8 md:mb-12"
           >
             <p className="text-base md:text-2xl font-bold leading-relaxed">
-              Saya <span className="text-primary">Ilham Saputra</span>, mahasiswa Informatika{" "}
-              <span className="text-primary">Universitas Gunadarma</span> yang memiliki passion dalam menciptakan website modern dengan desain elegan, performa tinggi, dan pengalaman pengguna yang optimal. Saya mengembangkan aplikasi menggunakan React, Next.js, TypeScript, serta teknologi frontend modern lainnya. Setiap proyek yang saya bangun mengutamakan kualitas kode, estetika desain, dan pengalaman pengguna yang maksimal.
+              Saya <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Ilham Saputra</span>, mahasiswa Informatika{" "}
+              <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Universitas Gunadarma</span> yang memiliki passion dalam menciptakan website modern dengan desain elegan, performa tinggi, dan pengalaman pengguna yang optimal. Saya mengembangkan aplikasi menggunakan <span className="bg-black text-white px-2 rounded-md -rotate-2 inline-block shadow-[2px_2px_0px_#ccff00]">React</span>, <span className="bg-black text-white px-2 rounded-md rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">Next.js</span>, <span className="bg-black text-white px-2 rounded-md -rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">TypeScript</span>, serta teknologi frontend modern lainnya. Setiap proyek yang saya bangun mengutamakan kualitas kode, estetika desain, dan pengalaman pengguna yang maksimal.
             </p>
           </motion.div>
 
@@ -81,11 +82,13 @@ export default function About() {
                 viewport={{ once: true, margin: "-60px" }}
                 whileHover={{ y: -8, boxShadow: "10px 10px 0px var(--theme-shadow)" }}
                 onHoverStart={playHover}
-                className={`${skill.color} rounded-3xl border-4 border-black shadow-neo p-8 transition-all duration-200 cursor-default`}
+                className={`${skill.color} rounded-3xl border-4 border-black shadow-neo transition-all duration-200 cursor-default`}
               >
-                <div className="mb-4">{skill.icon}</div>
-                <h3 className="text-2xl font-black uppercase mb-3">{skill.title}</h3>
-                <p className="font-medium leading-relaxed">{skill.description}</p>
+                <SpotlightCard className="p-6 md:p-8 w-full h-full rounded-3xl" spotlightColor="rgba(0,0,0,0.1)">
+                  <div className="mb-4">{skill.icon}</div>
+                  <h3 className="text-2xl font-black uppercase mb-3">{skill.title}</h3>
+                  <p className="font-medium leading-relaxed">{skill.description}</p>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>

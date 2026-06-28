@@ -6,6 +6,7 @@ import { FaGithub, FaInstagram, FaTiktok } from "react-icons/fa";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import confetti from "canvas-confetti";
 import MagneticWrapper from "@/components/MagneticWrapper";
+import Hero3D from "./Hero3D";
 
 const roles = ["Frontend Developer", "UI/UX Enthusiast", "React Specialist", "Next.js Developer"];
 
@@ -73,6 +74,9 @@ export default function Hero() {
       <div
         className="absolute bottom-20 -left-20 w-72 h-72 bg-white rounded-full opacity-10 blur-3xl pointer-events-none"
       />
+
+      {/* 3D Liquid Sphere Background */}
+      <Hero3D />
 
       <motion.div
         style={{ y: heroY, opacity: heroOpacity }}
