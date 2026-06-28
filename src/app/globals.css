@@ -15,6 +15,7 @@
 
 html, body, :root {
   color-scheme: light;
+  scroll-behavior: smooth;
   /* Default Blue Theme */
   --theme-bg: #0033ff;
   --theme-accent: #ccff00;
