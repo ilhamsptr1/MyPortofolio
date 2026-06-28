@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaGithub, FaInstagram, FaTiktok, FaEnvelope } from "react-icons/fa";
+import { Github, Instagram, Mail } from "lucide-react";
+import { FaTiktok } from "react-icons/fa";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import MagneticWrapper from "./MagneticWrapper";
 
 const socialLinks = [
-  { icon: <FaGithub className="w-6 h-6" />, href: "https://github.com/ilhamsptr1", color: "blue" },
-  { icon: <FaInstagram className="w-6 h-6" />, href: "https://www.instagram.com/ilhammsptra_/", color: "green" },
+  { icon: <Github className="w-6 h-6" />, href: "https://github.com/ilhamsptr1", color: "blue" },
+  { icon: <Instagram className="w-6 h-6" />, href: "https://www.instagram.com/ilhammsptra_/", color: "green" },
   { icon: <FaTiktok className="w-6 h-6" />, href: "https://www.tiktok.com/@ninetofive925", color: "blue" },
-  { icon: <FaEnvelope className="w-6 h-6" />, href: "mailto:ilham0909saputraaa@gmail.com", color: "green" },
+  { icon: <Mail className="w-6 h-6" />, href: "mailto:ilham0909saputraaa@gmail.com", color: "green" },
 ];
 
 export default function Sidebar() {
