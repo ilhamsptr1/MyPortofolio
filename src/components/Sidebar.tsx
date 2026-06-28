@@ -1,13 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Instagram, Mail } from "lucide-react";
-import { FaTiktok } from "react-icons/fa";
+import { Instagram, Mail } from "lucide-react";
+import { FaGithub, FaTiktok } from "react-icons/fa";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import MagneticWrapper from "./MagneticWrapper";
 
 const socialLinks = [
-  { icon: <Github className="w-6 h-6" />, href: "https://github.com/ilhamsptr1", color: "blue" },
+  { icon: <FaGithub className="w-6 h-6" />, href: "https://github.com/ilhamsptr1", color: "blue" },
   { icon: <Instagram className="w-6 h-6" />, href: "https://www.instagram.com/ilhammsptra_/", color: "green" },
   { icon: <FaTiktok className="w-6 h-6" />, href: "https://www.tiktok.com/@ninetofive925", color: "blue" },
   { icon: <Mail className="w-6 h-6" />, href: "mailto:ilham0909saputraaa@gmail.com", color: "green" },
