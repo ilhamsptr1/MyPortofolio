@@ -76,7 +76,7 @@ export default function Hero() {
 
       <motion.div
         style={{ y: heroY, opacity: heroOpacity }}
-        className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center"
+        className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center mt-24 md:mt-32"
       >
 
         {/* Availability Badge */}
