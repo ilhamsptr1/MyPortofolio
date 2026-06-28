@@ -1,17 +1,43 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Matter from "matter-js";
+
+interface PhysicsBox {
+  id: number;
+  text: string;
+  color: string;
+  textColor: string;
+  x: number;
+  y: number;
+  angle: number;
+}
+
+const TECH_STACKS = [
+  { text: "React", color: "#61DAFB", textColor: "#000" },
+  { text: "Next.js", color: "#000000", textColor: "#FFF" },
+  { text: "TypeScript", color: "#3178C6", textColor: "#FFF" },
+  { text: "Tailwind", color: "#06B6D4", textColor: "#FFF" },
+  { text: "HTML5", color: "#E34F26", textColor: "#FFF" },
+  { text: "CSS3", color: "#1572B6", textColor: "#FFF" },
+  { text: "Framer", color: "#FF0055", textColor: "#FFF" },
+  { text: "Figma", color: "#F24E1E", textColor: "#FFF" },
+];
+
+const BOX_W = 120;
+const BOX_H = 48;
 
 export default function PhysicsFooter() {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const engineRef = useRef<Matter.Engine | null>(null);
-  const renderRef = useRef<Matter.Render | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animFrameRef = useRef<number>(0);
+  const [boxes, setBoxes] = useState<PhysicsBox[]>([]);
+  const [isMobile, setIsMobile] = useState(true); // Start as true to avoid SSR issues
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 768px)").matches || window.matchMedia("(pointer: coarse)").matches);
+      setIsMobile(
+        window.matchMedia("(max-width: 768px)").matches ||
+          window.matchMedia("(pointer: coarse)").matches
+      );
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -19,143 +45,133 @@ export default function PhysicsFooter() {
   }, []);
 
   useEffect(() => {
-    // Disable on mobile to prevent blocking vertical scroll at the bottom of the page
-    if (!sceneRef.current || isMobile) return;
+    if (isMobile || !containerRef.current) return;
 
-    const Engine = Matter.Engine,
-      Render = Matter.Render,
-      Runner = Matter.Runner,
-      MouseConstraint = Matter.MouseConstraint,
-      Mouse = Matter.Mouse,
-      World = Matter.World,
-      Bodies = Matter.Bodies;
+    let Matter: typeof import("matter-js");
+    let engine: import("matter-js").Engine;
+    let runner: import("matter-js").Runner;
 
-    // Create engine
-    const engine = Engine.create();
-    engineRef.current = engine;
-    const world = engine.world;
+    const init = async () => {
+      Matter = await import("matter-js");
+      const { Engine, Runner, Bodies, World, Mouse, MouseConstraint, Events } = Matter;
 
-    const width = sceneRef.current.clientWidth;
-    const height = sceneRef.current.clientHeight;
+      const container = containerRef.current!;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
 
-    // Create renderer
-    const render = Render.create({
-      element: sceneRef.current,
-      engine: engine,
-      options: {
-        width,
-        height,
-        background: "transparent",
-        wireframes: false,
-      },
-    });
-    renderRef.current = render;
+      engine = Engine.create();
+      runner = Runner.create();
 
-    // Create bounds
-    const wallOptions = { isStatic: true, render: { visible: false } };
-    World.add(world, [
-      Bodies.rectangle(width / 2, height + 25, width, 50, wallOptions), // Bottom
-      Bodies.rectangle(width / 2, -2000, width, 50, wallOptions), // Top (ceiling) moved way up
-      Bodies.rectangle(-25, height / 2, 50, height * 2, wallOptions), // Left
-      Bodies.rectangle(width + 25, height / 2, 50, height * 2, wallOptions), // Right
-    ]);
+      // Boundaries
+      const wallOpts = { isStatic: true };
+      World.add(engine.world, [
+        Bodies.rectangle(width / 2, height + 25, width * 2, 50, wallOpts), // floor
+        Bodies.rectangle(-25, height / 2, 50, height * 2, wallOpts),        // left
+        Bodies.rectangle(width + 25, height / 2, 50, height * 2, wallOpts), // right
+      ]);
 
-    // Tech stack blocks
-    const techStacks = [
-      { text: "React", color: "#61DAFB", textColor: "#000" },
-      { text: "Next.js", color: "#000000", textColor: "#FFF" },
-      { text: "TypeScript", color: "#3178C6", textColor: "#FFF" },
-      { text: "Tailwind", color: "#06B6D4", textColor: "#FFF" },
-      { text: "HTML5", color: "#E34F26", textColor: "#FFF" },
-      { text: "CSS3", color: "#1572B6", textColor: "#FFF" },
-      { text: "Framer", color: "#FF0055", textColor: "#FFF" },
-    ];
-
-    const boxes = techStacks.map((tech, i) => {
-      const x = Math.random() * (width - 200) + 100;
-      const y = -200 - (i * 100); // Stagger drop from above
-      
-      // Creating a rounded rectangle look using a chamfered rectangle
-      return Bodies.rectangle(x, y, 120, 50, {
-        chamfer: { radius: 10 },
-        restitution: 0.8, // Bounciness
-        friction: 0.05,
-        render: {
-          fillStyle: tech.color,
-          strokeStyle: "#000",
-          lineWidth: 4,
-          // We can't render text easily in native matter-js render, 
-          // but we can use sprites. For simplicity, we just render colored boxes 
-          // and a separate HTML layer can overlay them if needed, but 
-          // the colored bouncy blocks are enough to convey "toys"
-        }
+      // Create physics bodies for each box
+      const physBodies = TECH_STACKS.map((_, i) => {
+        const x = Math.random() * (width - BOX_W - 40) + BOX_W / 2 + 20;
+        const y = -100 - i * 120;
+        return Bodies.rectangle(x, y, BOX_W, BOX_H, {
+          restitution: 0.5,
+          friction: 0.1,
+          frictionAir: 0.01,
+          chamfer: { radius: 8 },
+        });
       });
-    });
 
-    World.add(world, boxes);
+      World.add(engine.world, physBodies);
 
-    // Add mouse control
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: { visible: false },
-      },
-    });
+      // Mouse constraint for dragging
+      const mouse = Mouse.create(container);
+      const mouseConstraint = MouseConstraint.create(engine, {
+        mouse,
+        constraint: { stiffness: 0.2, render: { visible: false } },
+      });
+      World.add(engine.world, mouseConstraint);
 
-    World.add(world, mouseConstraint);
+      // Prevent mouse from blocking page scroll
+      mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
+      mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
 
-    // Keep the mouse in sync with rendering
-    render.mouse = mouse;
+      // Sync HTML boxes with physics bodies
+      const syncBoxes = () => {
+        setBoxes(
+          physBodies.map((body, i) => ({
+            id: i,
+            text: TECH_STACKS[i].text,
+            color: TECH_STACKS[i].color,
+            textColor: TECH_STACKS[i].textColor,
+            x: body.position.x,
+            y: body.position.y,
+            angle: body.angle,
+          }))
+        );
+        animFrameRef.current = requestAnimationFrame(syncBoxes);
+      };
 
-    // Run the engine and renderer
-    Render.run(render);
-    const runner = Runner.create();
-    Runner.run(runner, engine);
-
-    // Handle resize
-    const handleResize = () => {
-      if (sceneRef.current && render.canvas) {
-        const newWidth = sceneRef.current.clientWidth;
-        render.canvas.width = newWidth;
-        render.options.width = newWidth;
-        
-        // Update floor boundary
-        const floor = world.bodies.find((b) => b.isStatic && b.position.y > height);
-        if (floor) {
-          Matter.Body.setPosition(floor, { x: newWidth / 2, y: height + 25 });
-          // Note: Width of floor doesn't scale easily without replacing it, 
-          // but we made it wide enough initially or we just accept it.
-        }
-      }
+      Runner.run(runner, engine);
+      animFrameRef.current = requestAnimationFrame(syncBoxes);
     };
-    window.addEventListener("resize", handleResize);
+
+    init();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      Render.stop(render);
-      Runner.stop(runner);
-      if (engineRef.current) World.clear(engineRef.current.world, false);
-      if (engineRef.current) Engine.clear(engineRef.current);
-      if (render.canvas) render.canvas.remove();
-      render.canvas = null as any;
-      render.context = null as any;
-      render.textures = {};
+      cancelAnimationFrame(animFrameRef.current);
+      if (runner && Matter) {
+        Matter.Runner.stop(runner);
+        Matter.World.clear(engine.world, false);
+        Matter.Engine.clear(engine);
+      }
     };
   }, [isMobile]);
 
-  if (isMobile) return null; // Don't render physics on mobile to save perf & scroll bugs
+  if (isMobile) return null;
 
   return (
-    <div className="relative w-full h-[300px] border-t-4 border-black bg-accent overflow-hidden z-20">
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center select-none opacity-20">
-        <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-center">
+    <div
+      ref={containerRef}
+      className="relative w-full h-[300px] border-t-4 border-black bg-accent overflow-hidden cursor-crosshair select-none z-20"
+    >
+      {/* Background watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-black/10">
           THROW ME!
         </h2>
       </div>
-      {/* Matter.js Canvas Container */}
-      <div ref={sceneRef} className="absolute inset-0 w-full h-full cursor-crosshair"></div>
+
+      {/* HTML physics boxes */}
+      {boxes.map((box) => (
+        <div
+          key={box.id}
+          style={{
+            position: "absolute",
+            left: box.x - BOX_W / 2,
+            top: box.y - BOX_H / 2,
+            width: BOX_W,
+            height: BOX_H,
+            transform: `rotate(${box.angle}rad)`,
+            backgroundColor: box.color,
+            color: box.textColor,
+            border: "3px solid #000",
+            borderRadius: 8,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 900,
+            fontSize: 13,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            boxShadow: "3px 3px 0px #000",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          {box.text}
+        </div>
+      ))}
     </div>
   );
 }
