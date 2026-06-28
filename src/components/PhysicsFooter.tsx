@@ -55,7 +55,7 @@ export default function PhysicsFooter() {
     const wallOptions = { isStatic: true, render: { visible: false } };
     World.add(world, [
       Bodies.rectangle(width / 2, height + 25, width, 50, wallOptions), // Bottom
-      Bodies.rectangle(width / 2, -100, width, 50, wallOptions), // Top (ceiling)
+      Bodies.rectangle(width / 2, -2000, width, 50, wallOptions), // Top (ceiling) moved way up
       Bodies.rectangle(-25, height / 2, 50, height * 2, wallOptions), // Left
       Bodies.rectangle(width + 25, height / 2, 50, height * 2, wallOptions), // Right
     ]);
