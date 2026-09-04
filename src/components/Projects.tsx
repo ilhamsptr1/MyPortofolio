@@ -122,6 +122,7 @@ export default function Projects() {
               >
                 <Tilt3DCard intensity={12} scale={1.03} className="h-full">
                   <div
+                    data-cursor="project"
                     onMouseEnter={playHover}
                     className={`${
                       project.color
