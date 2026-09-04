@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import KonamiCode from "@/components/KonamiCode";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Developer Portfolio",
-  description: "A sleek, glassmorphism portfolio built with Next.js, React Three Fiber, and Framer Motion.",
+  title: "Ilham Saputra — Frontend Developer",
+  description:
+    "Portfolio of Ilham Saputra, an Informatics student at Universitas Gunadarma focused on modern web development and UI.",
 };
 
 export default function RootLayout({
@@ -25,14 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        {children}
+        {/* SmoothScroll activates Lenis globally — single instance, no conflicts */}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
         <KonamiCode />
       </body>
     </html>
   );
 }
-

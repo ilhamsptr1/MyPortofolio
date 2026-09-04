@@ -15,11 +15,36 @@
 
 html, body, :root {
   color-scheme: light;
-  scroll-behavior: smooth;
+  /* Lenis overrides scroll-behavior — do NOT set smooth here or it conflicts */
   /* Default Blue Theme */
   --theme-bg: #0033ff;
   --theme-accent: #ccff00;
   --theme-shadow: #000c40;
+}
+
+/* Lenis root styles — prevent double scrollbar and layout issues */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ── Accessibility: respect user's reduced-motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  /* Lenis will still mount but JS skips it for touch/reduced-motion */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html[data-theme="matrix"], body[data-theme="matrix"] {
