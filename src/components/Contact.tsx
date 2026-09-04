@@ -1,28 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, ArrowRight } from "lucide-react";
+import { Send, Mail, MapPin, ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import GlitchText from "./GlitchText";
 import DraggableWindow from "./DraggableWindow";
 import MagneticWrapper from "./MagneticWrapper";
 import TextReveal from "./TextReveal";
+import emailjs from "@emailjs/browser";
+
+type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<FormStatus>("idle");
   const { playHover, playClick } = useThemeSound();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!formRef.current) return;
+
+    setStatus("submitting");
     playClick();
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
-    }, 1500);
+
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setStatus("success");
+      formRef.current.reset();
+      // Reset back to idle after 5 seconds
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   };
 
   return (
@@ -93,34 +110,62 @@ export default function Contact() {
             <div className="relative z-10 w-full md:col-span-1">
               <DraggableWindow title="C:\\SYSTEM\\CONTACT.EXE" className="w-full">
                 <div className="bg-white text-black p-6 md:p-8 flex flex-col gap-5">
-                  {submitted ? (
-                    <div className="flex flex-col items-center justify-center text-center p-8 min-h-[300px]">
+
+                  {/* Success State */}
+                  {status === "success" && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="flex flex-col items-center justify-center text-center p-8 min-h-[300px]"
+                    >
                       <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center border-4 border-black shadow-neo mb-6">
-                        <Send className="w-8 h-8 text-black" />
+                        <CheckCircle className="w-8 h-8 text-black" />
                       </div>
                       <h3 className="text-3xl font-black uppercase mb-2 text-black">Message Sent!</h3>
-                      <p className="font-bold text-black/70">I&apos;ll get back to you as soon as possible.</p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                      <p className="font-bold text-black/70">Pesan sudah masuk ke email saya. Saya akan balas secepatnya!</p>
+                    </motion.div>
+                  )}
+
+                  {/* Error State */}
+                  {status === "error" && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="flex flex-col items-center justify-center text-center p-8 min-h-[300px]"
+                    >
+                      <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center border-4 border-black shadow-neo mb-6">
+                        <AlertCircle className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-black uppercase mb-2 text-black">Gagal Terkirim</h3>
+                      <p className="font-bold text-black/70 text-sm">Coba lagi atau langsung email ke ilham0909saputraaa@gmail.com</p>
+                    </motion.div>
+                  )}
+
+                  {/* Form */}
+                  {(status === "idle" || status === "submitting") && (
+                    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
                       <div className="grid md:grid-cols-2 gap-5">
                         <div className="flex flex-col gap-2">
-                          <label htmlFor="name" className="text-sm font-black uppercase tracking-wider">Name</label>
+                          <label htmlFor="from_name" className="text-sm font-black uppercase tracking-wider">Name</label>
                           <input
                             type="text"
-                            id="name"
+                            id="from_name"
+                            name="from_name"
                             required
-                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30"
+                            disabled={status === "submitting"}
+                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
                             placeholder="John Doe"
                           />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <label htmlFor="email" className="text-sm font-black uppercase tracking-wider">Email</label>
+                          <label htmlFor="reply_to" className="text-sm font-black uppercase tracking-wider">Email</label>
                           <input
                             type="email"
-                            id="email"
+                            id="reply_to"
+                            name="reply_to"
                             required
-                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30"
+                            disabled={status === "submitting"}
+                            className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
                             placeholder="john@example.com"
                           />
                         </div>
@@ -130,9 +175,11 @@ export default function Contact() {
                         <label htmlFor="message" className="text-sm font-black uppercase tracking-wider">Message</label>
                         <textarea
                           id="message"
+                          name="message"
                           required
                           rows={4}
-                          className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow resize-none placeholder:text-black/30"
+                          disabled={status === "submitting"}
+                          className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow resize-none placeholder:text-black/30 disabled:opacity-50"
                           placeholder="Tell me about your project..."
                         />
                       </div>
@@ -140,16 +187,31 @@ export default function Contact() {
                       <MagneticWrapper className="w-full">
                         <button
                           type="submit"
-                          disabled={isSubmitting}
+                          disabled={status === "submitting"}
                           onMouseEnter={playHover}
                           className="w-full bg-primary text-white border-4 border-black shadow-neo p-4 font-black uppercase tracking-widest text-lg hover:-translate-y-1 hover:shadow-neo-lg active:translate-y-1 active:shadow-none transition-all disabled:opacity-70 disabled:cursor-wait flex items-center justify-center gap-3"
                         >
-                          {isSubmitting ? "Sending..." : "Send Message"}
-                          <ArrowRight className="w-5 h-5" />
+                          {status === "submitting" ? (
+                            <>
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                                className="w-5 h-5 border-3 border-white border-t-transparent rounded-full"
+                                style={{ borderWidth: "3px" }}
+                              />
+                              Sending...
+                            </>
+                          ) : (
+                            <>
+                              Send Message
+                              <ArrowRight className="w-5 h-5" />
+                            </>
+                          )}
                         </button>
                       </MagneticWrapper>
                     </form>
                   )}
+
                 </div>
               </DraggableWindow>
             </div>
@@ -173,4 +235,3 @@ export default function Contact() {
     </section>
   );
 }
-
