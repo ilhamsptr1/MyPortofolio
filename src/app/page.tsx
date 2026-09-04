@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { ThemeSoundProvider } from "@/context/ThemeSoundContext";
-import Preloader from "@/components/Preloader";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 
 const CursorTrail = dynamic(() => import("@/components/CursorTrail"), { ssr: false });
@@ -20,7 +19,6 @@ export default function Home() {
   return (
     <ThemeSoundProvider>
       <ScrollProgressBar />
-      <Preloader />
       <NoiseOverlay />
       <main className="relative w-full min-h-screen bg-grid">
         {/* Global Overlays */}
