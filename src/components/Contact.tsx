@@ -146,11 +146,11 @@ export default function Contact() {
                     <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
                       <div className="grid md:grid-cols-2 gap-5">
                         <div className="flex flex-col gap-2">
-                          <label htmlFor="from_name" className="text-sm font-black uppercase tracking-wider">Name</label>
+                          <label htmlFor="name" className="text-sm font-black uppercase tracking-wider">Name</label>
                           <input
                             type="text"
-                            id="from_name"
-                            name="from_name"
+                            id="name"
+                            name="name"
                             required
                             disabled={status === "submitting"}
                             className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
@@ -158,11 +158,11 @@ export default function Contact() {
                           />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <label htmlFor="reply_to" className="text-sm font-black uppercase tracking-wider">Email</label>
+                          <label htmlFor="email" className="text-sm font-black uppercase tracking-wider">Email</label>
                           <input
                             type="email"
-                            id="reply_to"
-                            name="reply_to"
+                            id="email"
+                            name="email"
                             required
                             disabled={status === "submitting"}
                             className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
