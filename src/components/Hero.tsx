@@ -291,12 +291,12 @@ export default function Hero() {
           </MagneticWrapper>
         </motion.div>
 
-        {/* Social Row */}
+        {/* Social Row — hidden on lg+ because Sidebar already shows these icons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="flex items-center gap-6 mt-8"
+          className="flex lg:hidden items-center gap-6 mt-8"
         >
           {[
             { icon: <FaGithub className="w-5 h-5" />, href: "https://github.com/ilhamsptr1" },
