@@ -43,8 +43,9 @@ export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 600], [0, -120]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  // Start fade only after 100px scroll, fully gone at 900px — gives visitors time to see the photo
+  const heroY = useTransform(scrollY, [0, 900], [0, -80]);
+  const heroOpacity = useTransform(scrollY, [100, 900], [1, 0]);
   const { playHover, playClick } = useThemeSound();
   const photo = use3DTilt(14);
 
@@ -101,127 +102,150 @@ export default function Hero() {
           <span className="text-sm font-black tracking-widest text-black uppercase">Available for Freelance</span>
         </motion.div>
 
-        {/* ILHAM */}
-        <div className="overflow-hidden cursor-pointer" onClick={handleNameClick} onMouseEnter={playHover} data-magnetic="true">
-          <motion.h1
-            initial={{ y: 120, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", bounce: 0.4, duration: 1.2 }}
-            className="text-[4rem] sm:text-[6rem] md:text-[12rem] font-black leading-none tracking-tighter text-accent neo-shadow-text text-center"
-          >
-            ILHAM
-          </motion.h1>
-        </div>
+        {/* ── Main row: Photo LEFT + Name RIGHT (desktop) / stacked (mobile) ── */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 w-full">
 
-        {/* SAPUTRA */}
-        <div className="overflow-hidden -mt-2 md:-mt-6 cursor-pointer" onClick={handleNameClick} onMouseEnter={playHover} data-magnetic="true">
-          <motion.h1
-            initial={{ y: 120, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: 0.1 }}
-            className="text-[3.2rem] sm:text-[5rem] md:text-[10rem] font-black leading-none tracking-tighter text-white neo-shadow-text text-center"
-          >
-            SAPUTRA
-          </motion.h1>
-        </div>
-
-        {/* ── 3D Photo — sits between name and role ticker ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.85 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ type: "spring", bounce: 0.3, duration: 1.4, delay: 0.3 }}
-          className="relative mt-6 flex items-center justify-center"
-        >
-          {/* Glow blob behind photo */}
+          {/* 3D Photo — always shown prominently */}
           <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.35, 0.55, 0.35] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="absolute inset-0 rounded-full blur-2xl pointer-events-none"
-            style={{ background: "var(--theme-accent)", transform: "scale(1.3)" }}
-          />
-
-          {/* 3D tilt wrapper */}
-          <div
-            ref={photo.ref}
-            onMouseMove={photo.onMove}
-            onMouseLeave={photo.onLeave}
-            onMouseEnter={() => photo.setHovering(true)}
-            style={{ perspective: "900px" }}
+            initial={{ opacity: 0, x: -50, scale: 0.85 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ type: "spring", bounce: 0.3, duration: 1.3, delay: 0.2 }}
+            className="relative flex-shrink-0 flex items-center justify-center"
           >
+            {/* Glow blob */}
             <motion.div
-              animate={{ rotateX: photo.tilt.rotateX, rotateY: photo.tilt.rotateY, scale: photo.hovering ? 1.05 : 1 }}
-              transition={photo.hovering
-                ? { type: "spring", stiffness: 300, damping: 28, mass: 0.5 }
-                : { type: "spring", stiffness: 180, damping: 20 }
-              }
-              style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+              animate={{ scale: [1, 1.1, 1], opacity: [0.35, 0.6, 0.35] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-full blur-2xl pointer-events-none"
+              style={{ background: "var(--theme-accent)", transform: "scale(1.4)" }}
+            />
+
+            {/* 3D tilt */}
+            <div
+              ref={photo.ref}
+              onMouseMove={photo.onMove}
+              onMouseLeave={photo.onLeave}
+              onMouseEnter={() => photo.setHovering(true)}
+              style={{ perspective: "900px" }}
             >
-              {/* Float wrapper */}
               <motion.div
-                animate={photo.hovering ? {} : { y: [0, -12, 0] }}
-                transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                className="relative"
+                animate={{ rotateX: photo.tilt.rotateX, rotateY: photo.tilt.rotateY, scale: photo.hovering ? 1.05 : 1 }}
+                transition={photo.hovering
+                  ? { type: "spring", stiffness: 300, damping: 28, mass: 0.5 }
+                  : { type: "spring", stiffness: 180, damping: 20 }
+                }
+                style={{ transformStyle: "preserve-3d", willChange: "transform" }}
               >
-                {/* Photo frame */}
-                <div
-                  className="relative rounded-3xl border-4 border-black overflow-hidden shadow-[8px_8px_0px_#000]"
-                  style={{ width: "clamp(160px, 20vw, 240px)", height: "clamp(200px, 26vw, 300px)" }}
-                >
-                  <Image
-                    src="/fotosaya.jpg"
-                    alt="Ilham Saputra"
-                    fill
-                    priority
-                    className="object-cover object-top"
-                    sizes="240px"
-                  />
-                  {/* Gradient overlay at bottom */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
-                    style={{ background: "linear-gradient(to top, rgba(0,51,255,0.75) 0%, transparent 100%)" }}
-                  />
-                  {/* Specular glare */}
-                  <div
-                    className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                    style={{
-                      background: `radial-gradient(circle at ${photo.tilt.glareX}% ${photo.tilt.glareY}%, rgba(255,255,255,0.2), transparent 65%)`,
-                      opacity: photo.hovering ? 1 : 0,
-                    }}
-                  />
-                </div>
-
-                {/* Spinning star — top-left */}
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 7, ease: "linear" }}
-                  className="absolute -top-4 -left-4 w-10 h-10 bg-white border-4 border-black rounded-full flex items-center justify-center text-base shadow-[3px_3px_0px_#000] z-10 select-none"
-                >
-                  ✦
-                </motion.div>
-
-                {/* "Open to Work" badge — bottom-right */}
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
+                  animate={photo.hovering ? {} : { y: [0, -12, 0] }}
                   transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                  className="absolute -bottom-4 -right-3 bg-accent text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-xl border-4 border-black shadow-[3px_3px_0px_#000] z-10 whitespace-nowrap"
+                  className="relative"
                 >
-                  Open to Work ✦
+                  {/* Frame */}
+                  <div
+                    className="relative rounded-3xl border-4 border-black overflow-hidden shadow-[8px_8px_0px_#000]"
+                    style={{ width: "clamp(180px, 22vw, 260px)", height: "clamp(230px, 28vw, 330px)" }}
+                  >
+                    <Image
+                      src="/fotosaya.jpg"
+                      alt="Ilham Saputra"
+                      fill
+                      priority
+                      className="object-cover object-top"
+                      sizes="260px"
+                    />
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+                      style={{ background: "linear-gradient(to top, rgba(0,51,255,0.75) 0%, transparent 100%)" }}
+                    />
+                    <div
+                      className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                      style={{
+                        background: `radial-gradient(circle at ${photo.tilt.glareX}% ${photo.tilt.glareY}%, rgba(255,255,255,0.2), transparent 65%)`,
+                        opacity: photo.hovering ? 1 : 0,
+                      }}
+                    />
+                  </div>
+
+                  {/* Spinning star */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 7, ease: "linear" }}
+                    className="absolute -top-4 -left-4 w-10 h-10 bg-white border-4 border-black rounded-full flex items-center justify-center text-base shadow-[3px_3px_0px_#000] z-10 select-none"
+                  >
+                    ✦
+                  </motion.div>
+
+                  {/* Open to Work badge */}
+                  <motion.div
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+                    className="absolute -bottom-4 -right-3 bg-accent text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-xl border-4 border-black shadow-[3px_3px_0px_#000] z-10 whitespace-nowrap"
+                  >
+                    Open to Work ✦
+                  </motion.div>
                 </motion.div>
               </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Name — right of photo on desktop, below on mobile */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left select-none">
+            <div className="overflow-hidden cursor-pointer" onClick={handleNameClick} onMouseEnter={playHover} data-magnetic="true">
+              <motion.h1
+                initial={{ y: 120, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", bounce: 0.4, duration: 1.2 }}
+                className="text-[3.5rem] sm:text-[5rem] md:text-[8rem] lg:text-[10rem] font-black leading-none tracking-tighter text-accent neo-shadow-text"
+              >
+                ILHAM
+              </motion.h1>
+            </div>
+            <div className="overflow-hidden -mt-2 md:-mt-4 cursor-pointer" onClick={handleNameClick} onMouseEnter={playHover} data-magnetic="true">
+              <motion.h1
+                initial={{ y: 120, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: 0.1 }}
+                className="text-[2.8rem] sm:text-[4rem] md:text-[6.5rem] lg:text-[8rem] font-black leading-none tracking-tighter text-white neo-shadow-text"
+              >
+                SAPUTRA
+              </motion.h1>
+            </div>
+
+            {/* Role Ticker — desktop only, sits right of photo */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+              className="mt-4 h-10 md:h-14 overflow-hidden pointer-events-none hidden md:block"
+            >
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={roleIndex}
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -50, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="text-lg md:text-2xl font-black text-white uppercase tracking-widest neo-shadow-text-sm"
+                >
+                  — {roles[roleIndex]} —
+                </motion.p>
+              </AnimatePresence>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
+        {/* END main row */}
 
-        {/* Role Ticker */}
+        {/* Role Ticker — mobile only, below the row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="mt-6 h-10 md:h-14 overflow-hidden pointer-events-none"
+          className="mt-4 h-10 overflow-hidden pointer-events-none md:hidden"
         >
           <AnimatePresence mode="wait">
             <motion.p
@@ -230,12 +254,13 @@ export default function Hero() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="text-sm sm:text-lg md:text-3xl font-black text-white uppercase tracking-widest neo-shadow-text-sm text-center"
+              className="text-sm font-black text-white uppercase tracking-widest neo-shadow-text-sm text-center"
             >
               — {roles[roleIndex]} —
             </motion.p>
           </AnimatePresence>
         </motion.div>
+
 
         {/* CTA Buttons */}
         <motion.div
