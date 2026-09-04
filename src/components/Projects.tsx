@@ -5,6 +5,8 @@ import { ExternalLink } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import SpotlightCard from "./SpotlightCard";
 import GlitchText from "./GlitchText";
+import Tilt3DCard from "./Tilt3DCard";
+import TextReveal from "./TextReveal";
 
 const projects = [
   {
@@ -60,6 +62,15 @@ const projects = [
     link: "https://i-rating.vercel.app/",
     color: "bg-white",
     num: "06"
+  },
+  {
+    title: "AI News Analyzer",
+    description: "Analyze news articles using AI — sentiment analysis, named entity recognition, NLP, and automated summarization powered by machine learning.",
+    image: "https://api.microlink.io/?url=https://ai-news-analyzer-five.vercel.app/&screenshot=true&meta=false&embed=screenshot.url",
+    tags: ["React", "AI / NLP", "Vite", "Sentiment"],
+    link: "https://ai-news-analyzer-five.vercel.app/",
+    color: "bg-accent",
+    num: "07"
   }
 ];
 
@@ -88,9 +99,12 @@ export default function Projects() {
             <h2 className="text-5xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter">
               <GlitchText text="MY PROJECTS" />
             </h2>
-            <p className="text-xl md:text-2xl mt-4 max-w-2xl text-white">
-              Beberapa hasil karya terbaik saya. Dibuat dengan cinta dan kode.
-            </p>
+            <TextReveal
+              text="Project ini dibuat iseng iseng ajaa"
+              className="text-xl md:text-2xl mt-4 max-w-2xl text-white font-normal"
+              delay={0.2}
+              stagger={0.07}
+            />
           </div>
 
           {/* Project Grid */}
@@ -105,57 +119,63 @@ export default function Projects() {
               <motion.div
                 key={index}
                 variants={cardVariants}
-                whileHover={{ y: -10, rotate: index % 2 === 0 ? 1 : -1 }}
-                onHoverStart={playHover}
-                className={`${project.color} text-black rounded-3xl border-4 border-black shadow-neo overflow-hidden flex flex-col group hover:shadow-neo-xl transition-all duration-200 relative`}
               >
-                <SpotlightCard className="w-full h-full flex flex-col" spotlightColor="rgba(0,0,0,0.1)">
-                  {/* Project Screenshot */}
-                  <div className="relative h-48 overflow-hidden border-b-4 border-black">
-                    {/* Big number overlay */}
-                    <span className="absolute top-3 left-4 text-7xl font-black opacity-10 select-none z-10 leading-none">
-                      {project.num}
-                    </span>
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                    />
-                    {/* Live Demo Overlay on Hover */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={playClick}
-                        className="flex items-center gap-2 bg-accent text-black font-black px-5 py-2.5 rounded-full border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] active:shadow-none transition-all"
-                      >
-                        <ExternalLink className="w-4 h-4" /> OPEN SITE
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-xl font-black uppercase tracking-tight">{project.title}</h3>
-                      <span className="text-3xl font-black opacity-20 leading-none">{project.num}</span>
-                    </div>
-                    <p className="font-medium text-sm leading-relaxed mb-5 flex-grow opacity-80">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, ti) => (
-                        <span
-                          key={ti}
-                          className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-black/10 border border-black/20"
-                        >
-                          {tag}
+                <Tilt3DCard intensity={12} scale={1.03} className="h-full">
+                  <div
+                    onMouseEnter={playHover}
+                    className={`${
+                      project.color
+                    } text-black rounded-3xl border-4 border-black shadow-neo overflow-hidden flex flex-col group hover:shadow-neo-xl transition-shadow duration-200 relative h-full`}
+                  >
+                    <SpotlightCard className="w-full h-full flex flex-col" spotlightColor="rgba(0,0,0,0.1)">
+                      {/* Project Screenshot */}
+                      <div className="relative h-48 overflow-hidden border-b-4 border-black">
+                        {/* Big number overlay */}
+                        <span className="absolute top-3 left-4 text-7xl font-black opacity-10 select-none z-10 leading-none">
+                          {project.num}
                         </span>
-                      ))}
-                    </div>
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {/* Live Demo Overlay on Hover */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={playClick}
+                            className="flex items-center gap-2 bg-accent text-black font-black px-5 py-2.5 rounded-full border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] active:shadow-none transition-all"
+                          >
+                            <ExternalLink className="w-4 h-4" /> OPEN SITE
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6 flex flex-col flex-grow">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="text-xl font-black uppercase tracking-tight">{project.title}</h3>
+                          <span className="text-3xl font-black opacity-20 leading-none">{project.num}</span>
+                        </div>
+                        <p className="font-medium text-sm leading-relaxed mb-5 flex-grow opacity-80">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag, ti) => (
+                            <span
+                              key={ti}
+                              className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-black/10 border border-black/20"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </SpotlightCard>
                   </div>
-                </SpotlightCard>
+                </Tilt3DCard>
               </motion.div>
             ))}
           </motion.div>

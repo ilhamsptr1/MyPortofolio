@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { ThemeSoundProvider } from "@/context/ThemeSoundContext";
 import Preloader from "@/components/Preloader";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 
 const CursorTrail = dynamic(() => import("@/components/CursorTrail"), { ssr: false });
 const Sidebar = dynamic(() => import("@/components/Sidebar"), { ssr: false });
@@ -19,6 +20,7 @@ import PhysicsFooter from "@/components/PhysicsFooter";
 export default function Home() {
   return (
     <ThemeSoundProvider>
+      <ScrollProgressBar />
       <Preloader />
       <NoiseOverlay />
       <main className="relative w-full min-h-screen bg-grid">

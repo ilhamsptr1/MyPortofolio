@@ -6,6 +6,7 @@ import { FaGithub, FaInstagram, FaTiktok } from "react-icons/fa";
 import { useThemeSound } from "@/context/ThemeSoundContext";
 import confetti from "canvas-confetti";
 import MagneticWrapper from "@/components/MagneticWrapper";
+import ParticleBackground from "@/components/ParticleBackground";
 
 const roles = ["Frontend Developer", "UI/UX Enthusiast", "React Specialist", "Next.js Developer"];
 
@@ -65,6 +66,9 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-20 md:pb-0" style={{ overflow: "hidden" }}>
+
+      {/* Particle constellation background */}
+      <ParticleBackground count={90} maxDistance={140} speed={0.35} className="z-0" />
 
       {/* Decorative Blobs — fully inside, half-clipped */}
       <div

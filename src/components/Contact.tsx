@@ -7,6 +7,7 @@ import { useThemeSound } from "@/context/ThemeSoundContext";
 import GlitchText from "./GlitchText";
 import DraggableWindow from "./DraggableWindow";
 import MagneticWrapper from "./MagneticWrapper";
+import TextReveal from "./TextReveal";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -30,10 +31,16 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto">
 
           {/* Section Heading */}
-          <h2 className="text-6xl sm:text-7xl md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter mb-16 md:mb-24">
+          <h2 className="text-6xl sm:text-7xl md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter mb-8">
             <GlitchText text="LET'S" /><br />
             <GlitchText text="TALK" delay={0.2} />
           </h2>
+          <TextReveal
+            text="Have a project in mind? Let's build something amazing together."
+            className="text-white/70 text-lg md:text-xl font-medium mb-16 md:mb-24 max-w-xl"
+            delay={0.3}
+            stagger={0.05}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
 

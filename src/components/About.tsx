@@ -6,6 +6,8 @@ import { useThemeSound } from "@/context/ThemeSoundContext";
 import SpotlightCard from "./SpotlightCard";
 import GlitchText from "./GlitchText";
 import DraggableWindow from "./DraggableWindow";
+import CounterUp from "./CounterUp";
+import TextReveal from "./TextReveal";
 
 const skills = [
   {
@@ -85,6 +87,38 @@ export default function About() {
             ))}
           </div>
 
+          {/* ── Animated Stats Strip ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 md:mb-12"
+          >
+            {[
+              { end: 7,   suffix: "+", label: "Projects Built"    },
+              { end: 2,   suffix: "+", label: "Years of Learning"  },
+              { end: 10,  suffix: "+", label: "Technologies"       },
+              { end: 100, suffix: "%", label: "Passion Driven"     },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                onMouseEnter={playHover}
+                className="bg-white/10 border-4 border-black rounded-3xl p-6 flex flex-col items-center justify-center text-center shadow-neo hover:-translate-y-1 hover:shadow-neo-lg transition-all duration-200"
+              >
+                <CounterUp
+                  end={stat.end}
+                  suffix={stat.suffix}
+                  duration={1600}
+                  className="text-4xl md:text-5xl font-black text-accent neo-shadow-text-sm"
+                />
+                <p className="font-black uppercase text-xs md:text-sm tracking-widest text-white mt-2">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+
           {/* Tech Stack */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -93,7 +127,13 @@ export default function About() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="bg-primary/80 rounded-3xl border-4 border-black shadow-neo p-8"
           >
-            <h3 className="text-2xl font-black uppercase text-accent neo-shadow-text-sm mb-6">Tech Stack</h3>
+            <h3 className="text-2xl font-black uppercase text-accent neo-shadow-text-sm mb-2">Tech Stack</h3>
+            <TextReveal
+              text="Tools and technologies I use every day to build great products."
+              className="text-white/70 text-sm font-medium mb-6"
+              delay={0}
+              stagger={0.04}
+            />
             <div className="flex flex-wrap gap-3">
               {techs.map((tech, i) => (
                 <motion.span
