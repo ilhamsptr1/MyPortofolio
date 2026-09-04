@@ -26,9 +26,9 @@ export default function Contact() {
     setStatus("submitting");
     playClick();
 
-    const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
-    const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
+    const SERVICE_ID  = "service_6vl6n4w";
+    const TEMPLATE_ID = "template_8cu38gr";
+    const PUBLIC_KEY  = "jV5QZCnoG7xn3K1rM";
 
     try {
       await emailjs.send(
