@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
@@ -8,24 +8,39 @@ import { useThemeSound } from "@/context/ThemeSoundContext";
 import MagneticWrapper from "./MagneticWrapper";
 
 const navLinks = [
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work",    href: "#work",    id: "work"    },
+  { label: "About",   href: "#about",   id: "about"   },
+  { label: "Contact", href: "#contact", id: "contact" },
 ];
 
 export default function Navbar() {
   const { playHover, playClick } = useThemeSound();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
-  const toggleMenu = () => {
-    playClick();
-    setMenuOpen((prev) => !prev);
-  };
+  // ── Active section via IntersectionObserver ──────────────────────────────
+  useEffect(() => {
+    const targets = navLinks
+      .map(l => document.getElementById(l.id))
+      .filter(Boolean) as HTMLElement[];
 
-  const closeMenu = () => {
-    playClick();
-    setMenuOpen(false);
-  };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry that is most visible
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) setActiveSection(visible[0].target.id);
+      },
+      { threshold: 0.25, rootMargin: "-72px 0px -40% 0px" }
+    );
+
+    targets.forEach(t => observer.observe(t));
+    return () => observer.disconnect();
+  }, []);
+
+  const toggleMenu = () => { playClick(); setMenuOpen(p => !p); };
+  const closeMenu  = () => { playClick(); setMenuOpen(false); };
 
   return (
     <>
@@ -35,23 +50,33 @@ export default function Navbar() {
           {/* Left: Theme Toggle */}
           <ThemeToggle />
 
-          {/* Center Pill Navigation — desktop only */}
+          {/* Center Pill Navigation — desktop */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full border-4 border-black bg-white shadow-neo"
           >
-            {navLinks.map((link, i) => (
-              <a
-                key={i}
-                href={link.href}
-                onMouseEnter={playHover}
-                onClick={playClick}
-                className="px-5 py-1.5 rounded-full text-sm font-black uppercase tracking-widest text-black hover:bg-accent transition-colors border-2 border-transparent hover:border-black"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link, i) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={i}
+                  href={link.href}
+                  onMouseEnter={playHover}
+                  onClick={playClick}
+                  className={`
+                    px-5 py-1.5 rounded-full text-sm font-black uppercase tracking-widest
+                    transition-all duration-200 border-2
+                    ${isActive
+                      ? "bg-accent text-black border-black shadow-[2px_2px_0px_#000]"
+                      : "text-black border-transparent hover:bg-accent hover:border-black"
+                    }
+                  `}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </motion.div>
 
           {/* Right: Hire Me (desktop) + Hamburger (mobile) */}
@@ -71,13 +96,13 @@ export default function Navbar() {
               </motion.a>
             </MagneticWrapper>
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger — mobile */}
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleMenu}
-              className="md:hidden w-12 h-12 rounded-2xl border-3 border-black bg-white text-black flex items-center justify-center shadow-neo border-4"
+              className="md:hidden w-12 h-12 rounded-2xl border-4 border-black bg-white text-black flex items-center justify-center shadow-neo"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -97,7 +122,6 @@ export default function Navbar() {
             className="fixed inset-0 z-40 md:hidden flex flex-col"
             style={{ backgroundColor: "var(--theme-bg)" }}
           >
-            {/* Close area tap */}
             <div className="flex-1 flex flex-col items-center justify-center gap-6 px-8">
               {navLinks.map((link, i) => (
                 <motion.a
@@ -107,9 +131,9 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07 }}
-                  className="text-5xl font-black uppercase tracking-tighter text-white w-full text-center py-4 border-b-2 border-white/20 last:border-0 active:opacity-70"
+                  className="text-5xl font-black uppercase tracking-tighter w-full text-center py-4 border-b-2 border-white/20 last:border-0 active:opacity-70"
                 >
-                  <span style={{ color: i === 0 ? "var(--theme-accent)" : "white" }}>
+                  <span style={{ color: activeSection === link.id ? "var(--theme-accent)" : "white" }}>
                     {link.label}
                   </span>
                 </motion.a>
@@ -128,7 +152,6 @@ export default function Navbar() {
               </motion.a>
             </div>
 
-            {/* Bottom close tap */}
             <div className="py-10 text-center">
               <button
                 onClick={closeMenu}

@@ -159,10 +159,10 @@ export default function Projects() {
                           <h3 className="text-xl font-black uppercase tracking-tight">{project.title}</h3>
                           <span className="text-3xl font-black opacity-20 leading-none">{project.num}</span>
                         </div>
-                        <p className="font-medium text-sm leading-relaxed mb-5 flex-grow opacity-80">
+                        <p className="font-medium text-sm leading-relaxed mb-4 flex-grow opacity-80">
                           {project.description}
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mb-4">
                           {project.tags.map((tag, ti) => (
                             <span
                               key={ti}
@@ -171,6 +171,19 @@ export default function Projects() {
                               {tag}
                             </span>
                           ))}
+                        </div>
+                        {/* Persistent CTA — always visible, critical for mobile */}
+                        <div className="pt-4 border-t-2 border-black/10">
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={playClick}
+                            onMouseEnter={playHover}
+                            className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider hover:underline underline-offset-4"
+                          >
+                            Visit Site <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
                         </div>
                       </div>
                     </SpotlightCard>
