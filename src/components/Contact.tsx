@@ -27,7 +27,7 @@ export default function Contact() {
     playClick();
 
     const SERVICE_ID  = "service_6vl6n4w";
-    const TEMPLATE_ID = "template_8cu38gr";
+    const TEMPLATE_ID = "template_lfp7ts8";
     const PUBLIC_KEY  = "jV5QZCnoG7xn3K1rM";
 
     try {
