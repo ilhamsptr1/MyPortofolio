@@ -3,44 +3,60 @@
 import { motion, Variants } from "framer-motion";
 import { Code2, Palette, Zap } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
-import SpotlightCard from "./SpotlightCard";
 import GlitchText from "./GlitchText";
 import DraggableWindow from "./DraggableWindow";
 import CounterUp from "./CounterUp";
 import TextReveal from "./TextReveal";
 
-const skills = [
+// ── Services ──────────────────────────────────────────────────────────────────
+const services = [
   {
-    icon: <Code2 className="w-10 h-10" />,
+    number: "01",
+    icon: <Code2 strokeWidth={1.75} className="w-7 h-7" />,
     title: "Development",
-    description: "Building scalable and performant web applications using modern frameworks like React and Next.js.",
-    color: "bg-accent text-black",
+    description:
+      "I build modern web applications with React, Next.js, and TypeScript, focusing on clean code and reliable performance.",
+    bg: "bg-[#F5F5F0]",
+    accentNum: false,
+    offset: false,
   },
   {
-    icon: <Palette className="w-10 h-10" />,
+    number: "02",
+    icon: <Palette strokeWidth={1.75} className="w-7 h-7" />,
     title: "Design",
-    description: "Creating intuitive, accessible, and pixel-perfect user interfaces with a focus on modern aesthetics.",
-    color: "bg-white text-black",
+    description:
+      "Turning ideas into clean interfaces that feel simple, intuitive, and easy to use.",
+    bg: "bg-white",
+    accentNum: false,
+    offset: true, // pushed down on desktop — breaks the grid symmetry
   },
   {
-    icon: <Zap className="w-10 h-10" />,
+    number: "03",
+    icon: <Zap strokeWidth={1.75} className="w-7 h-7" />,
     title: "Performance",
-    description: "Optimizing web experiences for speed, smooth animations, and high lighthouse scores.",
-    color: "bg-accent text-black",
+    description:
+      "Making websites feel fast, responsive, and smooth across different devices.",
+    bg: "bg-[#F5F5F0]",
+    accentNum: true, // lime accent on number label only
+    offset: false,
   },
 ];
 
-const techs = ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP", "Node.js", "Figma", "Three.js", "Git"];
+const techs = [
+  "React", "Next.js", "TypeScript", "Tailwind CSS",
+  "Framer Motion", "GSAP", "Node.js", "Figma", "Three.js", "Git",
+];
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 40 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.15, ease: "easeOut" as const },
+    transition: { duration: 0.5, delay: i * 0.12, ease: "easeOut" as const },
   }),
 };
 
+// ── Component ─────────────────────────────────────────────────────────────────
 export default function About() {
   const { playHover } = useThemeSound();
 
@@ -49,46 +65,107 @@ export default function About() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
 
-          {/* Section Heading */}
+          {/* ── Section Heading ── */}
           <h2 className="text-5xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter mb-12 md:mb-20">
             <GlitchText text="ABOUT ME" />
           </h2>
 
-          {/* Bio Card in Draggable Window */}
-          <DraggableWindow title="C:\\USERS\\ILHAM\\BIO.TXT" className="mb-8 md:mb-12">
+          {/* ── Bio Window ── */}
+          <DraggableWindow title="C:\\USERS\\ILHAM\\BIO.TXT" className="mb-12 md:mb-16">
             <div className="bg-white text-black p-6 md:p-12">
               <p className="text-base md:text-2xl font-bold leading-relaxed">
-                Saya <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Ilham Saputra</span>, mahasiswa Informatika{" "}
-                <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">Universitas Gunadarma</span> yang fokus pada web development dan UI. Saya senang membangun website dengan tampilan yang modern, clean, dan nyaman digunakan.{" "}
-                Saya menggunakan <span className="bg-black text-white px-2 rounded-md -rotate-2 inline-block shadow-[2px_2px_0px_#ccff00]">React</span>, <span className="bg-black text-white px-2 rounded-md rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">Next.js</span>, <span className="bg-black text-white px-2 rounded-md -rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">TypeScript</span>, dan teknologi frontend modern lainnya untuk membuat website yang cepat, responsif, dan memiliki pengalaman pengguna yang baik.
+                Saya{" "}
+                <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">
+                  Ilham Saputra
+                </span>
+                , mahasiswa Informatika{" "}
+                <span className="text-primary inline-block hover:scale-105 transition-transform duration-200">
+                  Universitas Gunadarma
+                </span>{" "}
+                yang fokus pada web development dan UI. Saya senang membangun
+                website dengan tampilan yang modern, clean, dan nyaman
+                digunakan.{" "}
+                Saya menggunakan{" "}
+                <span className="bg-black text-white px-2 rounded-md -rotate-2 inline-block shadow-[2px_2px_0px_#ccff00]">
+                  React
+                </span>
+                ,{" "}
+                <span className="bg-black text-white px-2 rounded-md rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">
+                  Next.js
+                </span>
+                ,{" "}
+                <span className="bg-black text-white px-2 rounded-md -rotate-1 inline-block shadow-[2px_2px_0px_#ccff00]">
+                  TypeScript
+                </span>
+                , dan teknologi frontend modern lainnya untuk membuat website
+                yang cepat, responsif, dan memiliki pengalaman pengguna yang
+                baik.
               </p>
             </div>
           </DraggableWindow>
 
-          {/* Skill Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-            {skills.map((skill, index) => (
+          {/* ── What I Do — section intro ── */}
+          <div className="mb-8 md:mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <span className="text-[11px] font-black tracking-[0.22em] text-white/40 uppercase select-none">
+                What I Do
+              </span>
+              <div className="flex-1 h-px bg-white/10" />
+            </div>
+            <p className="text-white/55 text-base font-medium max-w-md leading-relaxed">
+              Building digital experiences with code, design, and performance in mind.
+            </p>
+          </div>
+
+          {/* ── Service Cards ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-10 md:mb-14">
+            {services.map((s, i) => (
               <motion.div
-                key={index}
-                custom={index}
+                key={i}
+                custom={i}
                 variants={cardVariants}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "-60px" }}
-                whileHover={{ y: -8, boxShadow: "10px 10px 0px var(--theme-shadow)" }}
                 onHoverStart={playHover}
-                className={`${skill.color} rounded-3xl border-4 border-black shadow-neo transition-all duration-200 cursor-default`}
+                // Asymmetry: middle card pushed down on desktop
+                className={`
+                  ${s.bg} border-4 border-black rounded-2xl
+                  shadow-[6px_6px_0px_#000]
+                  hover:-translate-y-2 hover:-translate-x-0.5
+                  hover:shadow-[10px_10px_0px_#000]
+                  transition-all duration-200 cursor-default
+                  p-7 md:p-8 flex flex-col
+                  ${s.offset ? "md:mt-8" : ""}
+                `}
               >
-                <SpotlightCard className="p-6 md:p-8 w-full h-full rounded-3xl" spotlightColor="rgba(0,0,0,0.1)">
-                  <div className="mb-4">{skill.icon}</div>
-                  <h3 className="text-2xl font-black uppercase mb-3">{skill.title}</h3>
-                  <p className="font-medium leading-relaxed">{skill.description}</p>
-                </SpotlightCard>
+                {/* Top row: number label + icon */}
+                <div className="flex items-start justify-between mb-10">
+                  <span
+                    className={`
+                      text-[10px] font-black tracking-[0.2em] uppercase leading-none
+                      ${s.accentNum ? "text-accent" : "text-black/25"}
+                    `}
+                  >
+                    {s.number}&nbsp;/&nbsp;{s.title.toUpperCase()}
+                  </span>
+                  <div className="text-black/70">{s.icon}</div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-[1.65rem] font-black uppercase tracking-tight text-black leading-none mb-3">
+                  {s.title}
+                </h3>
+
+                {/* Description — intentionally lighter weight */}
+                <p className="text-black/55 text-[0.9rem] font-medium leading-relaxed mt-auto pt-4">
+                  {s.description}
+                </p>
               </motion.div>
             ))}
           </div>
 
-          {/* ── Animated Stats Strip ── */}
+          {/* ── Stats Strip ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -97,15 +174,15 @@ export default function About() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 md:mb-12"
           >
             {[
-              { end: 7,   suffix: "+", label: "Projects Built"    },
-              { end: 2,   suffix: "+", label: "Years of Learning"  },
-              { end: 10,  suffix: "+", label: "Technologies"       },
-              { end: 100, suffix: "%", label: "Passion Driven"     },
+              { end: 7,   suffix: "+", label: "Projects Built"   },
+              { end: 2,   suffix: "+", label: "Years of Learning" },
+              { end: 10,  suffix: "+", label: "Technologies"      },
+              { end: 100, suffix: "%", label: "Passion Driven"    },
             ].map((stat, i) => (
               <div
                 key={i}
                 onMouseEnter={playHover}
-                className="bg-white/10 border-4 border-black rounded-3xl p-6 flex flex-col items-center justify-center text-center shadow-neo hover:-translate-y-1 hover:shadow-neo-lg transition-all duration-200"
+                className="bg-white/10 border-4 border-black rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-[6px_6px_0px_#000] hover:-translate-y-1 hover:shadow-[8px_8px_0px_#000] transition-all duration-200"
               >
                 <CounterUp
                   end={stat.end}
@@ -120,18 +197,20 @@ export default function About() {
             ))}
           </motion.div>
 
-          {/* Tech Stack */}
+          {/* ── Tech Stack ── */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-primary/80 rounded-3xl border-4 border-black shadow-neo p-8"
+            className="bg-primary/80 rounded-2xl border-4 border-black shadow-[6px_6px_0px_#000] p-8"
           >
-            <h3 className="text-2xl font-black uppercase text-accent neo-shadow-text-sm mb-2">Tech Stack</h3>
+            <h3 className="text-2xl font-black uppercase text-accent neo-shadow-text-sm mb-2">
+              Tech Stack
+            </h3>
             <TextReveal
               text="Tools and technologies I use every day to build great products."
-              className="text-white/70 text-sm font-medium mb-6"
+              className="text-white/60 text-sm font-medium mb-6"
               delay={0}
               stagger={0.04}
             />
@@ -143,7 +222,7 @@ export default function About() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05, duration: 0.3 }}
-                  whileHover={{ y: -3, boxShadow: "5px 5px 0px var(--theme-shadow)" }}
+                  whileHover={{ y: -3, boxShadow: "4px 4px 0px var(--theme-shadow)" }}
                   onHoverStart={playHover}
                   className="px-5 py-2 rounded-full bg-white text-black font-black text-sm uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_var(--theme-shadow)] transition-all duration-150 cursor-default"
                 >
@@ -158,4 +237,3 @@ export default function About() {
     </section>
   );
 }
-
