@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, MapPin, ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
 import { useThemeSound } from "@/context/ThemeSoundContext";
@@ -13,27 +13,36 @@ import emailjs from "@emailjs/browser";
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function Contact() {
-  const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const { playHover, playClick } = useThemeSound();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formRef.current) return;
-
     setStatus("submitting");
     playClick();
 
+    const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+    const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
+
     try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          name:    form.name,
+          email:   form.email,
+          message: form.message,
+        },
+        { publicKey: PUBLIC_KEY }
       );
       setStatus("success");
-      formRef.current.reset();
-      // Reset back to idle after 5 seconds
+      setForm({ name: "", email: "", message: "" });
       setTimeout(() => setStatus("idle"), 5000);
     } catch (err) {
       console.error("EmailJS error:", err);
@@ -143,7 +152,7 @@ export default function Contact() {
 
                   {/* Form */}
                   {(status === "idle" || status === "submitting") && (
-                    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                       <div className="grid md:grid-cols-2 gap-5">
                         <div className="flex flex-col gap-2">
                           <label htmlFor="name" className="text-sm font-black uppercase tracking-wider">Name</label>
@@ -152,6 +161,8 @@ export default function Contact() {
                             id="name"
                             name="name"
                             required
+                            value={form.name}
+                            onChange={handleChange}
                             disabled={status === "submitting"}
                             className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
                             placeholder="John Doe"
@@ -164,6 +175,8 @@ export default function Contact() {
                             id="email"
                             name="email"
                             required
+                            value={form.email}
+                            onChange={handleChange}
                             disabled={status === "submitting"}
                             className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow placeholder:text-black/30 disabled:opacity-50"
                             placeholder="john@example.com"
@@ -178,6 +191,8 @@ export default function Contact() {
                           name="message"
                           required
                           rows={4}
+                          value={form.message}
+                          onChange={handleChange}
                           disabled={status === "submitting"}
                           className="bg-transparent border-4 border-black p-4 font-bold focus:outline-none focus:shadow-[4px_4px_0px_var(--theme-primary)] transition-shadow resize-none placeholder:text-black/30 disabled:opacity-50"
                           placeholder="Tell me about your project..."
