@@ -8,6 +8,7 @@ import confetti from "canvas-confetti";
 import MagneticWrapper from "@/components/MagneticWrapper";
 import ParticleBackground from "@/components/ParticleBackground";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const roles = ["Frontend Developer", "UI/UX Enthusiast", "React Specialist", "Next.js Developer"];
 
@@ -42,9 +43,10 @@ function use3DTilt(intensity = 14) {
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [clickCount, setClickCount] = useState(0);
+  const isMobile = useIsMobile();
   const { scrollY } = useScroll();
-  // Start fade only after 100px scroll, fully gone at 900px — gives visitors time to see the photo
-  const heroY = useTransform(scrollY, [0, 900], [0, -80]);
+  // Start fade only after 100px scroll, fully gone at 900px
+  const heroYRaw = useTransform(scrollY, [0, 900], [0, -80]);
   const heroOpacity = useTransform(scrollY, [100, 900], [1, 0]);
   const { playHover, playClick } = useThemeSound();
   const photo = use3DTilt(14);
@@ -86,7 +88,7 @@ export default function Hero() {
 
       {/* ── Main centered column ── */}
       <motion.div
-        style={{ y: heroY, opacity: heroOpacity }}
+        style={{ y: isMobile ? 0 : heroYRaw, opacity: heroOpacity }}
         className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center mt-20 md:mt-28"
       >
 
@@ -112,32 +114,33 @@ export default function Hero() {
             transition={{ type: "spring", bounce: 0.3, duration: 1.3, delay: 0.2 }}
             className="relative flex-shrink-0 flex items-center justify-center"
           >
-            {/* Glow blob */}
+            {/* Glow blob — static on mobile, animated on desktop */}
             <motion.div
-              animate={{ scale: [1, 1.1, 1], opacity: [0.35, 0.6, 0.35] }}
+              animate={isMobile ? {} : { scale: [1, 1.1, 1], opacity: [0.35, 0.6, 0.35] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               className="absolute inset-0 rounded-full blur-2xl pointer-events-none"
-              style={{ background: "var(--theme-accent)", transform: "scale(1.4)" }}
+              style={{ background: "var(--theme-accent)", transform: "scale(1.4)", opacity: 0.35 }}
             />
 
-            {/* 3D tilt */}
+            {/* 3D tilt — disabled on mobile (no mouse) */}
             <div
-              ref={photo.ref}
-              onMouseMove={photo.onMove}
-              onMouseLeave={photo.onLeave}
-              onMouseEnter={() => photo.setHovering(true)}
-              style={{ perspective: "900px" }}
+              ref={isMobile ? undefined : photo.ref}
+              onMouseMove={isMobile ? undefined : photo.onMove}
+              onMouseLeave={isMobile ? undefined : photo.onLeave}
+              onMouseEnter={isMobile ? undefined : () => photo.setHovering(true)}
+              style={{ perspective: isMobile ? undefined : "900px" }}
             >
               <motion.div
-                animate={{ rotateX: photo.tilt.rotateX, rotateY: photo.tilt.rotateY, scale: photo.hovering ? 1.05 : 1 }}
+                animate={isMobile ? {} : { rotateX: photo.tilt.rotateX, rotateY: photo.tilt.rotateY, scale: photo.hovering ? 1.05 : 1 }}
                 transition={photo.hovering
                   ? { type: "spring", stiffness: 300, damping: 28, mass: 0.5 }
                   : { type: "spring", stiffness: 180, damping: 20 }
                 }
-                style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+                style={isMobile ? {} : { transformStyle: "preserve-3d", willChange: "transform" }}
               >
+                {/* Float animation — disabled on mobile */}
                 <motion.div
-                  animate={photo.hovering ? {} : { y: [0, -12, 0] }}
+                  animate={isMobile ? {} : (photo.hovering ? {} : { y: [0, -12, 0] })}
                   transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
                   className="relative"
                 >
@@ -158,27 +161,29 @@ export default function Hero() {
                       className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
                       style={{ background: "linear-gradient(to top, rgba(0,51,255,0.75) 0%, transparent 100%)" }}
                     />
-                    <div
-                      className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                      style={{
-                        background: `radial-gradient(circle at ${photo.tilt.glareX}% ${photo.tilt.glareY}%, rgba(255,255,255,0.2), transparent 65%)`,
-                        opacity: photo.hovering ? 1 : 0,
-                      }}
-                    />
+                    {!isMobile && (
+                      <div
+                        className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                        style={{
+                          background: `radial-gradient(circle at ${photo.tilt.glareX}% ${photo.tilt.glareY}%, rgba(255,255,255,0.2), transparent 65%)`,
+                          opacity: photo.hovering ? 1 : 0,
+                        }}
+                      />
+                    )}
                   </div>
 
-                  {/* Spinning star */}
+                  {/* Spinning star — static on mobile */}
                   <motion.div
-                    animate={{ rotate: 360 }}
+                    animate={isMobile ? {} : { rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 7, ease: "linear" }}
                     className="absolute -top-4 -left-4 w-10 h-10 bg-white border-4 border-black rounded-full flex items-center justify-center text-base shadow-[3px_3px_0px_#000] z-10 select-none"
                   >
                     ✦
                   </motion.div>
 
-                  {/* Open to Work badge */}
+                  {/* Open to Work badge — static on mobile */}
                   <motion.div
-                    animate={{ rotate: [0, 5, -5, 0] }}
+                    animate={isMobile ? {} : { rotate: [0, 5, -5, 0] }}
                     transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
                     className="absolute -bottom-4 -right-3 bg-accent text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-xl border-4 border-black shadow-[3px_3px_0px_#000] z-10 whitespace-nowrap"
                   >

@@ -147,6 +147,8 @@ export default function Projects() {
                         <img
                           src={project.image}
                           alt={project.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                         />
                         {/* Live Demo Overlay on Hover */}

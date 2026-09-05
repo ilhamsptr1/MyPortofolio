@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * ScrollProgressBar
- * A razor-thin (4px) accent-colored bar that fills from left → right
- * as the user scrolls down the page. Uses a raw rAF loop so there
- * are zero re-renders and it stays buttery-smooth at 60 fps.
+ * ScrollProgressBar — razor-thin accent bar at the very top of the viewport.
+ *
+ * Performance: uses a passive scroll listener + single rAF per scroll event,
+ * NOT a continuously-looping rAF. This means zero CPU work when the user
+ * is not scrolling (important for mobile battery / thermal).
  */
 export default function ScrollProgressBar() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -15,22 +16,37 @@ export default function ScrollProgressBar() {
     const bar = barRef.current;
     if (!bar) return;
 
-    let raf: number;
+    let raf = 0;
+    let ticking = false;
 
-    const update = () => {
+    const compute = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      bar.style.width = `${Math.min(progress, 100)}%`;
-      raf = requestAnimationFrame(update);
+      const docH =
+        document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = `${
+        docH > 0 ? Math.min((scrollTop / docH) * 100, 100) : 0
+      }%`;
+      ticking = false;
     };
 
-    raf = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(raf);
+    const onScroll = () => {
+      if (!ticking) {
+        raf = requestAnimationFrame(compute);
+        ticking = true;
+      }
+    };
+
+    // Passive: never blocks scroll thread
+    window.addEventListener("scroll", onScroll, { passive: true });
+    compute(); // set initial value
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
-    /* Fixed strip along the very top of the viewport — above everything except cursor */
     <div
       className="fixed top-0 left-0 right-0 z-[9998] h-1 bg-white/10 pointer-events-none"
       aria-hidden="true"

@@ -2,19 +2,8 @@
 
 import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
+import { useIsTouch } from "@/hooks/useIsMobile";
 
-/**
- * Tilt3DCard
- * Wraps any children in a card that rotates in 3-D following the mouse.
- * Uses CSS perspective + transform so it is entirely GPU-accelerated.
- *
- * Props:
- *  className      — extra classes for the outer wrapper
- *  intensity      — max tilt angle in degrees (default 15)
- *  glare          — show a specular glare highlight (default true)
- *  glareOpacity   — max opacity of glare (default 0.25)
- *  scale          — scale on hover (default 1.04)
- */
 interface Tilt3DCardProps {
   children: React.ReactNode;
   className?: string;
@@ -32,6 +21,7 @@ export default function Tilt3DCard({
   glareOpacity = 0.25,
   scale = 1.04,
 }: Tilt3DCardProps) {
+  const isTouch = useIsTouch();
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0 });
   const [glarePos, setGlarePos] = useState({ x: 50, y: 50 });
@@ -42,19 +32,12 @@ export default function Tilt3DCard({
     (e: React.MouseEvent<HTMLDivElement>) => {
       const card = cardRef.current;
       if (!card) return;
-
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-
       rafRef.current = requestAnimationFrame(() => {
         const rect = card.getBoundingClientRect();
-        // Normalise to -0.5 … +0.5
         const nx = (e.clientX - rect.left) / rect.width - 0.5;
         const ny = (e.clientY - rect.top) / rect.height - 0.5;
-
-        setTransform({
-          rotateX: -ny * intensity,   // invert Y so it feels natural
-          rotateY: nx * intensity,
-        });
+        setTransform({ rotateX: -ny * intensity, rotateY: nx * intensity });
         setGlarePos({
           x: ((e.clientX - rect.left) / rect.width) * 100,
           y: ((e.clientY - rect.top) / rect.height) * 100,
@@ -70,10 +53,18 @@ export default function Tilt3DCard({
     setIsHovering(false);
   }, []);
 
-  const handleMouseEnter = useCallback(() => {
-    setIsHovering(true);
-  }, []);
+  const handleMouseEnter = useCallback(() => setIsHovering(true), []);
 
+  // ── Mobile / touch: render plain wrapper — no 3D, no willChange, no GPU layers ──
+  if (isTouch) {
+    return (
+      <div className={`relative ${className}`}>
+        {children}
+      </div>
+    );
+  }
+
+  // ── Desktop: full 3D tilt with mouse tracking ──
   return (
     <div
       ref={cardRef}
@@ -89,18 +80,12 @@ export default function Tilt3DCard({
           rotateY: transform.rotateY,
           scale: isHovering ? scale : 1,
         }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-          mass: 0.5,
-        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.5 }}
         style={{ transformStyle: "preserve-3d", willChange: "transform" }}
         className="w-full h-full"
       >
         {children}
 
-        {/* Glare layer */}
         {glare && (
           <div
             className="absolute inset-0 rounded-[inherit] pointer-events-none overflow-hidden"
