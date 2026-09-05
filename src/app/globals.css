@@ -125,46 +125,35 @@ a, button, input, textarea, [role="button"] {
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  /* ── Fix: Lenis adds height:auto to html when active.
-     On mobile, Lenis is disabled so we must set this manually.
-     Without it, html stays at height:100% (from h-full in layout.tsx)
-     which causes iOS Safari to block native scrolling. ── */
-  html {
-    height: auto;
-  }
-
-  /* ── Native scroll feel ──────────────────────────────── */
+  /* ── Cursor: restore on mobile (custom cursor is touch-disabled) ── */
   body {
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
     cursor: auto;
   }
 
-  /* ── Restore pointer cursor on interactive elements ──── */
   a, button, input, textarea, [role="button"] {
     cursor: pointer;
   }
 
-  /* ── NoiseOverlay: hide expensive fixed mix-blend overlay ── */
-  /* The overlay uses mix-blend-mode: overlay on a fixed fullscreen element.
-     This forces GPU compositing on mobile and reduces scroll smoothness. */
+  /* ── NoiseOverlay: hide expensive fixed mix-blend overlay ──────── */
+  /* mix-blend-mode:overlay on a fixed fullscreen element forces
+     GPU compositing on mobile GPUs — hide it completely. */
   .mix-blend-overlay {
     display: none;
   }
 
-  /* ── Reduce backdrop-filter cost on mobile ─────────── */
+  /* ── Reduce backdrop-filter cost on mobile ─────────────────────── */
   .neo-card {
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
 
-  /* ── Simplify glow animations ───────────────────────── */
+  /* ── Simplify glow animation ────────────────────────────────────── */
   .glow-accent {
     animation: none;
     box-shadow: 0 0 10px var(--theme-accent);
   }
 
-  /* ── Reduce grid background complexity ──────────────── */
+  /* ── Reduce grid background complexity ──────────────────────────── */
   .bg-grid {
     background-size: 80px 80px;
     background-image:
@@ -172,4 +161,3 @@ a, button, input, textarea, [role="button"] {
       linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
   }
 }
-
