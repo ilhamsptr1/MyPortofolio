@@ -167,12 +167,3 @@ a, button, input, textarea, [role="button"] {
   }
 }
 
-/* ── Content visibility: allow browser to skip off-screen sections ── */
-/* Apply to sections below the fold. Don't use on Hero (above fold). */
-@media (max-width: 768px) {
-  #about, #work, #contact {
-    content-visibility: auto;
-    /* Estimated size prevents layout shift when section becomes visible */
-    contain-intrinsic-size: 0 900px;
-  }
-}
