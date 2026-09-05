@@ -125,12 +125,18 @@ a, button, input, textarea, [role="button"] {
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  /* ── Fix: Lenis adds height:auto to html when active.
+     On mobile, Lenis is disabled so we must set this manually.
+     Without it, html stays at height:100% (from h-full in layout.tsx)
+     which causes iOS Safari to block native scrolling. ── */
+  html {
+    height: auto;
+  }
+
   /* ── Native scroll feel ──────────────────────────────── */
   body {
-    /* Lenis is disabled on touch, so re-enable native scroll smoothing */
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
-    /* Restore default cursor on mobile (custom cursor is touch-disabled) */
     cursor: auto;
   }
 
