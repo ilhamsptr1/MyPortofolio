@@ -109,7 +109,7 @@ export default function Projects() {
               <GlitchText text="MY PROJECTS" />
             </h2>
             <TextReveal
-              text="Project ini dibuat iseng iseng ajaa"
+              text="A collection of real projects — from web apps to tools, built with care."
               className="text-xl md:text-2xl mt-4 max-w-2xl text-white font-normal"
               delay={0.2}
               stagger={0.07}

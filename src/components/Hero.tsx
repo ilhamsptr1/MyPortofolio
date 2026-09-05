@@ -262,7 +262,6 @@ export default function Hero() {
         </motion.div>
 
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -287,6 +286,20 @@ export default function Hero() {
               className="w-full sm:w-auto px-8 py-4 rounded-full bg-transparent text-white font-black text-base uppercase tracking-widest border-4 border-white shadow-[6px_6px_0px_rgba(255,255,255,0.3)] hover:shadow-[8px_8px_0px_rgba(255,255,255,0.4)] transition-all duration-150 block text-center"
             >
               Hire Me →
+            </a>
+          </MagneticWrapper>
+          <MagneticWrapper strength={40} className="w-full sm:w-auto">
+            <a
+              href="/cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={playHover}
+              onClick={playClick}
+              download
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-black text-base uppercase tracking-widest border-4 border-black shadow-neo hover:shadow-neo-lg hover:-translate-y-1 transition-all duration-150 flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download CV
             </a>
           </MagneticWrapper>
         </motion.div>
