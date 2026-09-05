@@ -71,6 +71,15 @@ const projects = [
     link: "https://ai-news-analyzer-five.vercel.app/",
     color: "bg-accent",
     num: "07"
+  },
+  {
+    title: "ConvertHub",
+    description: "Fast, secure, AI-powered file conversion tool. Everything you need to manage your documents and media instantly.",
+    image: "https://api.microlink.io/?url=https://converthub-flax.vercel.app/&screenshot=true&meta=false&embed=screenshot.url",
+    tags: ["Next.js", "AI", "Tools"],
+    link: "https://converthub-flax.vercel.app/",
+    color: "bg-white",
+    num: "08"
   }
 ];
 
