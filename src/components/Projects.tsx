@@ -138,6 +138,16 @@ export default function Projects() {
                     } text-black rounded-3xl border-4 border-black shadow-neo overflow-hidden flex flex-col group hover:shadow-neo-xl transition-shadow duration-200 relative h-full`}
                   >
                     <SpotlightCard className="w-full h-full flex flex-col" spotlightColor="rgba(0,0,0,0.1)">
+                      {/* Stretched link so the whole card is clickable */}
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={playClick}
+                        aria-label={`Open ${project.title}`}
+                        className="absolute inset-0 z-20"
+                      />
+
                       {/* Project Screenshot */}
                       <div className="relative h-48 overflow-hidden border-b-4 border-black">
                         {/* Big number overlay */}
@@ -152,7 +162,7 @@ export default function Projects() {
                           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                         />
                         {/* Live Demo Overlay on Hover */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 flex items-center justify-center z-30">
                           <a
                             href={project.link}
                             target="_blank"
@@ -185,7 +195,7 @@ export default function Projects() {
                           ))}
                         </div>
                         {/* Persistent CTA — always visible, critical for mobile */}
-                        <div className="pt-4 border-t-2 border-black/10">
+                        <div className="pt-4 border-t-2 border-black/10 relative z-30">
                           <a
                             href={project.link}
                             target="_blank"

@@ -69,7 +69,7 @@ export default function Tilt3DCard({
     <div
       ref={cardRef}
       className={`relative ${className}`}
-      style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
+      style={{ perspective: "1000px" }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
@@ -81,7 +81,7 @@ export default function Tilt3DCard({
           scale: isHovering ? scale : 1,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.5 }}
-        style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+        style={{ willChange: "transform" }}
         className="w-full h-full"
       >
         {children}
