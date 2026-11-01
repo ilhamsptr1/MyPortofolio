@@ -80,6 +80,15 @@ const projects = [
     link: "https://converthub-flax.vercel.app/",
     color: "bg-white",
     num: "08"
+  },
+  {
+    title: "IMovie",
+    description: "A modern movie and series streaming platform with Full HD playback, Indonesian subtitles, and an ad-free experience.",
+    image: "https://api.microlink.io/?url=https://imovie.web.id/&screenshot=true&meta=false&embed=screenshot.url",
+    tags: ["Next.js", "Streaming", "Tailwind"],
+    link: "https://imovie.web.id/",
+    color: "bg-accent",
+    num: "09"
   }
 ];
 

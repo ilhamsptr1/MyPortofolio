@@ -351,7 +351,7 @@ export default function Hero() {
           onHoverStart={playHover}
           className="w-44 bg-white text-black rounded-3xl border-4 border-black shadow-neo-lg p-5 cursor-grab active:cursor-grabbing"
         >
-          <p className="text-4xl font-black text-primary mb-1">7+</p>
+          <p className="text-4xl font-black text-primary mb-1">9+</p>
           <p className="font-black uppercase text-sm tracking-widest">Projects Built</p>
           <div className="mt-3 w-full h-1.5 bg-gray-200 rounded-full">
             <div className="w-4/5 h-full bg-accent rounded-full" />
