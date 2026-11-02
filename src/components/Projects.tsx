@@ -89,6 +89,15 @@ const projects = [
     link: "https://imovie.web.id/",
     color: "bg-accent",
     num: "09"
+  },
+  {
+    title: "IMusic",
+    description: "A premium music streaming platform and Android app featuring 24-Bit Hi-Fi Lossless audio, Dolby Atmos, and synced real-time lyrics.",
+    image: "https://api.microlink.io/?url=https://imusic.web.id/&screenshot=true&meta=false&embed=screenshot.url",
+    tags: ["Astro", "Android", "Streaming"],
+    link: "https://imusic.web.id/",
+    color: "bg-white",
+    num: "10"
   }
 ];
 

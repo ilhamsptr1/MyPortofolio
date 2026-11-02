@@ -174,7 +174,7 @@ export default function About() {
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 md:mb-12"
           >
             {[
-              { end: 9,   suffix: "+", label: "Projects Built"   },
+              { end: 10,  suffix: "+", label: "Projects Built"   },
               { end: 2,   suffix: "+", label: "Years of Learning" },
               { end: 10,  suffix: "+", label: "Technologies"      },
               { end: 100, suffix: "%", label: "Passion Driven"    },
