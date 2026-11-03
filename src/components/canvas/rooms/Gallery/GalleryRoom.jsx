@@ -742,6 +742,7 @@ const FlyingBird = ({ texture }) => {
 
 // Sub-component for individual project cards
 const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, currentScroll, materials, curve, isSelected, scrollToIndex, onClick, isMobile, isTransitioning, paintProgress, roomOrigin }, ref) => {
+    const { openProjectViewer } = useScene();
     const cardRef = useRef();
     const paperRef = useRef(); // Ref for the moving part (Paper)
     const materialRef = useRef();
@@ -1232,7 +1233,7 @@ const ProjectCard = memo(forwardRef(({ index, project, clothespinTexture, curren
                         onClick={(e) => {
                             if (isSelected && !isTransitioning) {
                                 e.stopPropagation();
-                                window.open(project.url, '_blank');
+                                openProjectViewer(project);
                             }
                         }}
                         onPointerEnter={(e) => {

@@ -35,34 +35,39 @@ const TeleportRoom = memo(() => {
 
     // Position camera when entering 'teleporting' phase
     useEffect(() => {
-        if (teleportPhase === 'teleporting' && teleportTarget && !hasPositioned.current) {
-            const doorZ = DOOR_POSITIONS_Z[teleportTarget];
+        if (teleportPhase === 'teleporting' && !hasPositioned.current) {
+            if (teleportTarget) {
+                const doorZ = DOOR_POSITIONS_Z[teleportTarget];
 
-            if (doorZ !== undefined) {
-                // Place camera 8 units "before" the door (towards positive Z)
-                // Center of corridor (X=0)
-                // Height standard (Y=0.2)
-                const targetZ = doorZ + 8;
+                if (doorZ !== undefined) {
+                    // Place camera 8 units "before" the door (towards positive Z)
+                    const targetZ = doorZ + 8;
 
-                // Instantly teleport camera
-                camera.position.set(0, 0.2, targetZ);
+                    // Instantly teleport camera
+                    camera.position.set(0, 0.2, targetZ);
 
-                // Reset rotation to look straight down corridor (towards negative Z)
-                // This ensures we start "neutral" before the door click animation takes over
+                    // Reset rotation to look straight down corridor
+                    camera.rotation.set(0, 0, 0);
+
+                    hasPositioned.current = true;
+
+                    // Small delay to ensure frame update
+                    setTimeout(() => {
+                        if (isFastTeleport) {
+                            completeTeleport();
+                        } else {
+                            openTeleportTransition();
+                        }
+                    }, 50);
+                }
+            } else {
+                // If teleportTarget is null, smoothly return to entrance / corridor start
+                camera.position.set(0, 0.2, 8);
                 camera.rotation.set(0, 0, 0);
-
                 hasPositioned.current = true;
 
-                // Small delay to ensure frame update
                 setTimeout(() => {
-                    if (isFastTeleport) {
-                        // FAST TELEPORT: Skip paper open, go straight to door click
-                        // Paper stays closed, DoorSection will call signalRoomReady when done
-                        completeTeleport();
-                    } else {
-                        // NORMAL TELEPORT: Open paper first (not currently used, but kept for flexibility)
-                        openTeleportTransition();
-                    }
+                    openTeleportTransition();
                 }, 50);
             }
         }

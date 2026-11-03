@@ -20,6 +20,7 @@ export const SceneProvider = ({ children }) => {
     const [hasEntered, setHasEntered] = useState(false);  // Has user clicked entrance doors?
     const [exitRequested, setExitRequested] = useState(false); // Signal to request exit from room
     const [overlayContent, setOverlayContent] = useState(null); // Content for overlay (Studio monitor etc)
+    const [activeProject, setActiveProject] = useState(null); // Active project preview viewer
 
     // Teleportation states
     const [teleportTarget, setTeleportTarget] = useState(null); // Room ID to teleport to
@@ -34,6 +35,7 @@ export const SceneProvider = ({ children }) => {
         setCurrentRoom(roomId);
         setExitRequested(false); // Clear any pending exit request
         setOverlayContent(null); // Clear overlay on room change
+        setActiveProject(null);
 
         // Teleportation cleanup - if we just teleported in
         // Note: isFastTeleport is cleared by signalRoomReady, not here
@@ -47,12 +49,14 @@ export const SceneProvider = ({ children }) => {
         setCurrentRoom(null);
         setExitRequested(false);
         setOverlayContent(null);
+        setActiveProject(null);
     }, []);
 
     // Request exit - this signals to DoorSection to trigger exit animation
     const requestExit = useCallback(() => {
         setExitRequested(true);
         setOverlayContent(null);
+        setActiveProject(null);
     }, []);
 
     // Clear exit request - called by DoorSection after handling
@@ -66,6 +70,14 @@ export const SceneProvider = ({ children }) => {
 
     const openOverlay = useCallback((content) => {
         setOverlayContent(content);
+    }, []);
+
+    const openProjectViewer = useCallback((project) => {
+        setActiveProject(project);
+    }, []);
+
+    const closeProjectViewer = useCallback(() => {
+        setActiveProject(null);
     }, []);
 
     const closeOverlay = useCallback(() => {
@@ -148,6 +160,9 @@ export const SceneProvider = ({ children }) => {
         markEntered,
         openOverlay,    // Exposed
         closeOverlay,   // Exposed
+        activeProject,
+        openProjectViewer,
+        closeProjectViewer,
         isInRoom: currentRoom !== null,
         // Deep linking
         initialRoom: initialRoom.current,

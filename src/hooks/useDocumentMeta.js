@@ -6,7 +6,7 @@ import { useScene } from '../context/SceneContext';
  * 
  * Updates the browser URL, page title, and meta description
  * whenever the user enters/exits a 3D room. Also handles the
- * browser back/forward buttons for seamless navigation.
+ * browser back/forward buttons for seamless navigation without 404s.
  */
 
 const ROOM_META = {
@@ -51,17 +51,41 @@ const PATH_TO_ROOM = {
  * Call this once at app startup to determine if we need to auto-teleport.
  */
 export function getInitialRoomFromUrl() {
+    if (typeof window === 'undefined') return null;
     const path = window.location.pathname.replace(/\/+$/, '') || '/';
     return PATH_TO_ROOM[path] !== undefined ? PATH_TO_ROOM[path] : null;
 }
 
 export function useDocumentMeta() {
-    const { currentRoom, teleportTo, hasEntered } = useScene();
-    const isHandlingPopState = useRef(false);
+    const { 
+        currentRoom, 
+        teleportTo, 
+        hasEntered, 
+        requestExit, 
+        activeProject, 
+        closeProjectViewer 
+    } = useScene();
 
-    // Update title, meta, and URL whenever currentRoom changes
+    const isHandlingPopState = useRef(false);
+    const activeProjectRef = useRef(activeProject);
+    activeProjectRef.current = activeProject;
+    const currentRoomRef = useRef(currentRoom);
+    currentRoomRef.current = currentRoom;
+
+    // 0. Ensure base '/' state exists in history on initial load so browser back always returns home
     useEffect(() => {
-        // Don't push a new history entry if this change was triggered by the user clicking back/forward
+        if (typeof window === 'undefined') return;
+        const initial = getInitialRoomFromUrl();
+        if (initial) {
+            window.history.replaceState({ room: null }, '', '/');
+            window.history.pushState({ room: initial }, '', window.location.pathname);
+        } else {
+            window.history.replaceState({ room: null }, '', '/');
+        }
+    }, []);
+
+    // 1. Update Document Meta & URL when currentRoom changes
+    useEffect(() => {
         if (isHandlingPopState.current) {
             isHandlingPopState.current = false;
             return;
@@ -69,10 +93,10 @@ export function useDocumentMeta() {
 
         const meta = ROOM_META[currentRoom] || ROOM_META[null];
 
-        // 1. Update Document Title
+        // Update Title
         document.title = meta.title;
 
-        // 2. Update Meta Description
+        // Update Meta Description
         let metaDesc = document.querySelector('meta[name="description"]');
         if (!metaDesc) {
             metaDesc = document.createElement('meta');
@@ -81,32 +105,63 @@ export function useDocumentMeta() {
         }
         metaDesc.content = meta.description;
 
-        // 3. Update Browser URL via History API
-        // Only push if the current URL is actually different (prevents duplicate entries)
+        // Update Browser URL via History API
         const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
-        if (currentPath !== meta.path) {
+        if (currentPath !== meta.path && !activeProjectRef.current) {
             window.history.pushState({ room: currentRoom }, '', meta.path);
         }
     }, [currentRoom]);
 
-    // Handle browser back/forward buttons (popstate event)
+    // 2. Manage History when activeProject changes
+    useEffect(() => {
+        if (isHandlingPopState.current) return;
+
+        if (activeProject) {
+            const meta = ROOM_META[currentRoomRef.current] || ROOM_META['gallery'];
+            document.title = `${activeProject.title} — Ilham Saputra Portfolio`;
+            window.history.pushState(
+                { room: currentRoomRef.current || 'gallery', project: activeProject.title },
+                '',
+                `${meta.path}?project=${encodeURIComponent(activeProject.title.toLowerCase().replace(/\s+/g, '-'))}`
+            );
+        } else {
+            const meta = ROOM_META[currentRoomRef.current] || ROOM_META[null];
+            document.title = meta.title;
+            // Clean up query param if present
+            if (window.location.search.includes('project=')) {
+                window.history.replaceState({ room: currentRoomRef.current }, '', meta.path);
+            }
+        }
+    }, [activeProject]);
+
+    // 3. Handle browser back/forward buttons (popstate event)
     useEffect(() => {
         const handlePopState = (event) => {
-            // Determine which room to navigate to
+            isHandlingPopState.current = true;
+
+            // If project viewer was open, browser back simply closes it and stays in gallery
+            if (activeProjectRef.current) {
+                closeProjectViewer();
+                return;
+            }
+
+            // Determine target room
             const targetRoom = event.state?.room !== undefined
                 ? event.state.room
                 : getInitialRoomFromUrl();
 
-            // Set the flag so we don't push another state entry during this transition
-            isHandlingPopState.current = true;
-
-            // Only teleport if we have already entered the 3D world
             if (hasEntered) {
-                teleportTo(targetRoom);
+                if (targetRoom === null && currentRoomRef.current !== null) {
+                    // Smoothly exit back to corridor / beranda
+                    requestExit();
+                } else if (targetRoom && targetRoom !== currentRoomRef.current) {
+                    // Teleport to the requested room
+                    teleportTo(targetRoom);
+                }
             }
         };
 
         window.addEventListener('popstate', handlePopState);
         return () => window.removeEventListener('popstate', handlePopState);
-    }, [teleportTo, hasEntered]);
+    }, [teleportTo, hasEntered, requestExit, closeProjectViewer]);
 }
