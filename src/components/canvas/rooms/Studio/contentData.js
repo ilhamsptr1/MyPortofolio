@@ -1,33 +1,34 @@
 /**
- * Studio Content Data
+ * Studio Content Data — Ilham Saputra
  * 
- * This file contains all content items for the Studio monitor tower.
- * Each item will be displayed on a monitor in the tower.
- * 
- * Platforms: 'youtube', 'blog', 'tiktok'
+ * Contains content items for the Studio monitor tower:
+ * - Case Studies of Ilham's top web applications
+ * - Tech Lab & Coding Experiment deep dives
+ * - Social & Developer channels (TikTok, Instagram, GitHub)
+ * - Academic journey at Universitas Gunadarma
  */
 
 export const PLATFORM_CONFIG = {
-    youtube: {
-        color: '#FF0000',
-        accentColor: '#cc0000',
-        icon: '▶',
-        label: 'YouTube',
-        shape: 'tv', // Wide CRT style
+    case_study: {
+        color: '#3B82F6',
+        accentColor: '#1D4ED8',
+        icon: '🔬',
+        label: 'Case Study',
+        shape: 'monitor', // Desktop monitor style
     },
-    blog: {
-        color: '#4A90D9',
-        accentColor: '#2d6cb5',
-        icon: '📝',
-        label: 'Blog',
-        shape: 'monitor', // Thin desktop monitor
+    tech_lab: {
+        color: '#F59E0B',
+        accentColor: '#D97706',
+        icon: '⚡',
+        label: 'Tech Lab',
+        shape: 'tv', // CRT TV style
     },
     tiktok: {
         color: '#00F2EA',
         accentColor: '#FF0050',
         icon: '🎵',
-        label: 'TikTok',
-        shape: 'phone', // Vertical phone
+        label: 'TikTok Dev',
+        shape: 'phone', // Vertical phone style
     },
     instagram: {
         color: '#E1306C',
@@ -36,368 +37,177 @@ export const PLATFORM_CONFIG = {
         label: 'Instagram',
         shape: 'phone',
     },
-    x: {
-        color: '#000000',
-        accentColor: '#14171A',
-        icon: '𝕏',
-        label: 'X (Twitter)',
+    github: {
+        color: '#24292e',
+        accentColor: '#181717',
+        icon: '💻',
+        label: 'Open Source',
         shape: 'monitor',
     },
-    linkedin: {
-        color: '#0077B5',
-        accentColor: '#005E93',
-        icon: 'in',
-        label: 'LinkedIn',
-        shape: 'monitor',
+    youtube: {
+        color: '#EF4444',
+        accentColor: '#DC2626',
+        icon: '▶',
+        label: 'Live Demo',
+        shape: 'tv',
     },
-    codrops: {
-        color: '#0099FF',
-        accentColor: '#0077CC',
-        icon: '💧',
-        label: 'Codrops',
+    blog: {
+        color: '#10B981',
+        accentColor: '#059669',
+        icon: '📝',
+        label: 'Dev Notes',
         shape: 'monitor',
     },
 };
 
-// Sample content data - replace with real content later
 const RAW_CONTENT_DATA = [
-    // ============ YouTube Videos ============
+    // ============ Case Studies ============
     {
-        id: 'yt-001',
-        platform: 'youtube',
-        title: 'I Built a Website for Young Multi for $__,___',
-        description: 'It\'s late 2025, we\'re flying to space, and Young Multi... still didn\'t have his own website. So I took matters into my own hands.',
-        frontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego.webp',
-        paintedFrontTexture: '/textures/studio/tvfront_filmikprojektdlamultiego_painted.webp',
-        thumbnail: null,
-        url: 'https://www.youtube.com/watch?v=AOz4fB7NV_I&t=21s',
-        date: '2026-01-10',
-        views: '1.2K',
-        duration: '15:32',
+        id: 'cs-001',
+        platform: 'case_study',
+        title: 'IMovie: Full HD Streaming & Subtitle Pipeline',
+        description: 'Technical architecture breakdown of IMovie. Explores adaptive video streaming buffers, multi-source failover mechanisms, responsive video controls, and seamless Indonesian subtitle rendering with customized media queries.',
+        url: 'https://imovie.web.id/',
+        date: '2026-02-15',
+        views: '1.8K reads',
     },
     {
-        id: 'yt-002',
-        platform: 'youtube',
-        title: 'Turning an ordinary selfie into a professional AI photoshoot! How Google Nano Banana transformed my photo! (For Free)',
-        description: '📸 Watch how I turned a basic selfie into a professional photoshoot using a free AI tool from Google! In this step-by-step tutorial, I reveal my secret trick for crafting perfect prompts, even if you\'re a total beginner.',
-        frontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec.webp',
-        paintedFrontTexture: '/textures/studio/tvfront_filmikedytowaniezdjec_painted.webp',
-        thumbnail: null,
-        url: 'https://www.youtube.com/watch?v=WQTOD7uXHNY&t=10s',
-        date: '2025-10-11',
-        views: '121',
-        duration: '7:45',
+        id: 'cs-002',
+        platform: 'case_study',
+        title: 'IMusic: 24-Bit Hi-Fi Lossless & Synced Lyrics',
+        description: 'Architectural breakdown of the IMusic player engine. Features Web Audio API state synchronization, caching layers for lossless audio streaming, dynamic UI palette extraction from album artwork, and real-time lyric syncing down to the millisecond.',
+        url: 'https://imusic.web.id/',
+        date: '2026-01-28',
+        views: '2.4K reads',
     },
     {
-        id: 'yt-003',
-        platform: 'youtube',
-        title: 'React Three Fiber Crash Course',
-        description: 'Everything you need to know to get started with 3D in React.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-12-28',
-        views: '2.4K',
-        duration: '22:10',
+        id: 'cs-003',
+        platform: 'case_study',
+        title: 'AI News Analyzer: NLP Sentiment Classification',
+        description: 'How AI News Analyzer ingests raw journalism feeds, extracts named entities, performs contextual sentiment analysis (positive/neutral/negative polarity), and serves automated summaries via modern NLP models.',
+        url: 'https://ai-news-analyzer-five.vercel.app/',
+        date: '2026-01-14',
+        views: '1.5K reads',
     },
     {
-        id: 'yt-004',
-        platform: 'youtube',
-        title: 'Shaders for Beginners',
-        description: 'Introduction to GLSL shaders in WebGL and Three.js.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-12-15',
-        views: '1.8K',
-        duration: '18:33',
-    },
-    {
-        id: 'yt-005',
-        platform: 'youtube',
-        title: 'GSAP + Three.js Integration',
-        description: 'How to animate 3D objects with GSAP ScrollTrigger.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-12-01',
-        views: '3.1K',
-        duration: '20:15',
-    },
-    {
-        id: 'yt-006',
-        platform: 'youtube',
-        title: 'Building Interactive 3D Scenes',
-        description: 'Raycasting, hover effects, and click interactions in Three.js.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-11-20',
-        views: '2.8K',
-        duration: '25:00',
-    },
-    {
-        id: 'yt-007',
-        platform: 'youtube',
-        title: 'WebGL Performance Deep Dive',
-        description: 'Optimizing draw calls, geometry instancing, and more.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-11-10',
-        views: '1.5K',
-        duration: '30:22',
-    },
-    {
-        id: 'yt-008',
-        platform: 'youtube',
-        title: 'Procedural Textures Tutorial',
-        description: 'Creating textures with noise and math functions.',
-        thumbnail: null,
-        url: 'https://www.youtube.com/@itompoland',
-        date: '2025-10-28',
-        views: '1.9K',
-        duration: '18:45',
-    },
-
-    // ============ Blog Posts ============
-    {
-        id: 'blog-001',
-        platform: 'blog',
-        title: 'Double Site of the Day confirmed! 🏆🏆',
-        description: 'You\'ve probably noticed I\'ve been sharing a bunch of SOTD certificates on my stories lately. Yes, it\'s true—the YOUNG MULTI project officially scored a "double" and got recognized on the international stage...',
-        frontTexture: '/textures/studio/monitorfront_postnafbdoublewinner.webp',
-        paintedFrontTexture: '/textures/studio/monitorfront_postnafbdoublewinner_painted.webp',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58/posts/pfbid0TmvbFrc9ASYBQHpv3fcz5gM9WZrgrLMzZFbbtSFySmzQNickLRNh6ubu388D7hHXl?rdid=nWrKXJXR8EqibqvZ',
-        date: '2026-01-08',
-        readTime: '5 min',
-    },
-    {
-        id: 'blog-002',
-        platform: 'blog',
-        title: 'The Hand-Drawn Aesthetic',
-        description: 'How I achieved a sketch-like visual style using shaders.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
+        id: 'cs-004',
+        platform: 'case_study',
+        title: 'ConvertHub: Zero-Server Client-Side Conversion',
+        description: 'Engineering ConvertHub as a privacy-first web utility suite. Demonstrates how WebAssembly and JavaScript Canvas/Blob streams convert images, documents, and currency calculations entirely inside the user\'s browser without sending sensitive data to external servers.',
+        url: 'https://converthub-flax.vercel.app/',
         date: '2025-12-20',
-        readTime: '8 min',
+        views: '1.2K reads',
     },
     {
-        id: 'blog-003',
-        platform: 'blog',
-        title: 'Optimizing 3D for the Web',
-        description: 'Performance tips for smooth 60fps 3D experiences.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
-        date: '2025-12-10',
-        readTime: '6 min',
+        id: 'cs-005',
+        platform: 'case_study',
+        title: 'Prediksi Bola: Live Score Webhooks & Head-to-Head Stats',
+        description: 'Real-time sports data pipeline combining third-party football REST APIs, team performance trends, head-to-head match history, and automated odds calculations presented through high-performance Next.js server components.',
+        url: 'https://prediksibola-two.vercel.app/',
+        date: '2025-11-30',
+        views: '1.9K reads',
     },
     {
-        id: 'blog-004',
-        platform: 'blog',
-        title: 'Creative Coding Journey',
-        description: 'My path from traditional dev to creative development.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
-        date: '2025-11-25',
-        readTime: '10 min',
-    },
-    {
-        id: 'blog-005',
-        platform: 'blog',
-        title: 'The Future of Web Experiences',
-        description: 'Where I think interactive web is heading.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
+        id: 'cs-006',
+        platform: 'case_study',
+        title: 'i-Photo Booth: Accessing WebRTC Streams & Canvas Filters',
+        description: 'Deep dive into the browser MediaDevices API, handling high-definition webcam video streams, applying custom retro color grading shaders on an HTML5 2D canvas, and generating downloadable photo booth print strips.',
+        url: 'https://i-photo-booth-chi.vercel.app/',
         date: '2025-11-15',
-        readTime: '7 min',
-    },
-    {
-        id: 'blog-006',
-        platform: 'blog',
-        title: 'Design Systems for 3D',
-        description: 'Creating consistent 3D component libraries.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
-        date: '2025-11-01',
-        readTime: '12 min',
-    },
-    {
-        id: 'blog-007',
-        platform: 'blog',
-        title: 'Accessibility in 3D Web',
-        description: 'Making immersive experiences accessible to everyone.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
-        date: '2025-10-20',
-        readTime: '9 min',
-    },
-    {
-        id: 'blog-008',
-        platform: 'blog',
-        title: 'Audio in Web Experiences',
-        description: 'Adding spatial audio to enhance immersion.',
-        thumbnail: null,
-        url: 'https://www.facebook.com/tomasz.szmajda.58',
-        date: '2025-10-10',
-        readTime: '6 min',
+        views: '2.1K reads',
     },
 
-    // ============ TikToks ============
+    // ============ Tech Lab & Coding Experiments ============
     {
-        id: 'tt-001',
-        platform: 'tiktok',
-        title: 'Zaobserwuj mnie na TikToku! ✨',
-        description: 'Dzielę się tam wskazówkami z designu, kodowania i nie tylko.',
-        frontTexture: '/textures/studio/phonefront_followmeontiktok.webp',
-        paintedFrontTexture: '/textures/studio/phonefront_followmeontiktok_painted.webp',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2026-01-09',
-        views: '15.2K',
-        likes: '1.2K',
+        id: 'lab-001',
+        platform: 'tech_lab',
+        title: 'Interactive 3D on the Web: Three.js & R3F Notes',
+        description: 'Key learnings on 3D web graphics: managing draw calls, instanced meshes, custom GLSL shaders, camera parallax mathematics, and achieving consistent 60 FPS performance on both mobile and desktop GPUs.',
+        url: 'https://github.com/ilhamsptr1',
+        date: '2026-02-01',
+        views: '3.5K reads',
     },
     {
-        id: 'tt-002',
-        platform: 'tiktok',
-        title: 'Coding a door animation 🚪',
-        description: 'POV: You open a door in Three.js',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2026-01-03',
-        views: '8.5K',
-        likes: '756',
+        id: 'lab-002',
+        platform: 'tech_lab',
+        title: 'Fluid Motion: Mastering GSAP Timelines & Transitions',
+        description: 'Techniques for smooth user interfaces. Covers custom easing curves, physics-based springs, SVG path morphing, paper-tear canvas animations, and optimizing animation frames with requestAnimationFrame.',
+        url: 'https://github.com/ilhamsptr1',
+        date: '2025-12-10',
+        views: '2.7K reads',
     },
     {
-        id: 'tt-003',
-        platform: 'tiktok',
-        title: 'When the shader finally works 🎉',
-        description: 'The satisfaction of debugging shaders',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-12-25',
-        views: '22.1K',
-        likes: '3.4K',
-    },
-    {
-        id: 'tt-004',
-        platform: 'tiktok',
-        title: 'Day in the life: WebGL Dev',
-        description: 'What I do as a creative developer',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-12-18',
-        views: '12.3K',
-        likes: '1.1K',
-    },
-    {
-        id: 'tt-005',
-        platform: 'tiktok',
-        title: 'React vs Three.js POV 😅',
-        description: 'The struggle is real',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-12-12',
-        views: '45.2K',
-        likes: '5.8K',
-    },
-    {
-        id: 'tt-006',
-        platform: 'tiktok',
-        title: 'Making a 3D button 🔘',
-        description: '30 seconds of pure satisfaction',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-12-05',
-        views: '18.7K',
-        likes: '2.1K',
-    },
-    {
-        id: 'tt-007',
-        platform: 'tiktok',
-        title: 'This shader took 3 hours 💀',
-        description: 'Was it worth it? Absolutely.',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-11-28',
-        views: '33.4K',
-        likes: '4.2K',
-    },
-    {
-        id: 'tt-008',
-        platform: 'tiktok',
-        title: 'Hover effects compilation ✨',
-        description: 'My favorite micro-interactions',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-11-20',
-        views: '28.9K',
-        likes: '3.6K',
-    },
-    {
-        id: 'tt-009',
-        platform: 'tiktok',
-        title: 'Loading screen ideas 🔄',
-        description: 'Creative preloader concepts',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-11-15',
-        views: '19.3K',
-        likes: '2.4K',
-    },
-    {
-        id: 'tt-010',
-        platform: 'tiktok',
-        title: 'Cursor goes brrr 🖱️',
-        description: 'Custom cursor madness',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-11-08',
-        views: '41.2K',
-        likes: '5.1K',
-    },
-    {
-        id: 'tt-011',
-        platform: 'tiktok',
-        title: 'Parallax scrolling magic 🪄',
-        description: 'Simple but effective',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
-        date: '2025-11-01',
-        views: '25.6K',
-        likes: '3.0K',
-    },
-    {
-        id: 'tt-012',
-        platform: 'tiktok',
-        title: 'Text animation inspo 📝',
-        description: 'Typography that moves',
-        thumbnail: null,
-        url: 'https://www.tiktok.com/@itompoland',
+        id: 'lab-003',
+        platform: 'tech_lab',
+        title: 'Modern Responsive Design: CSS Grid & Touch Physics',
+        description: 'Practical guidelines for reflowing complex layouts from mobile phone screens to ultra-wide desktop monitors without layout shifts (CLS), ensuring 48px tap targets, and handling touch drag physics.',
+        url: 'https://github.com/ilhamsptr1',
         date: '2025-10-25',
-        views: '31.8K',
-        likes: '4.0K',
+        views: '1.6K reads',
+    },
+    {
+        id: 'lab-004',
+        platform: 'tech_lab',
+        title: 'Web Performance Checklist: 95+ Lighthouse Score',
+        description: 'Actionable techniques to maximize frontend speed: modern WebP/AVIF image formats, dynamic code splitting with Vite/Next.js, lazy-loading offscreen modules, and minimizing JavaScript bundle weight.',
+        url: 'https://github.com/ilhamsptr1',
+        date: '2025-10-05',
+        views: '2.9K reads',
+    },
+
+    // ============ Social Channels & Academic Journey ============
+    {
+        id: 'soc-001',
+        platform: 'tiktok',
+        title: 'TikTok Coding & Tech Tips: @ninetofive925',
+        description: 'Check out my TikTok for quick web development breakdowns, daily coding workflows, developer setup aesthetics, and behind-the-scenes glimpses of projects in progress.',
+        url: 'https://www.tiktok.com/@ninetofive925',
+        date: '2026-02-20',
+        views: 'Follow @ninetofive925',
+    },
+    {
+        id: 'soc-002',
+        platform: 'instagram',
+        title: 'Instagram Creative & Dev Life: @ilhammsptra_',
+        description: 'Follow my creative journey, UI/UX explorations, college life in Informatics at Universitas Gunadarma, and updates on new web projects on Instagram.',
+        url: 'https://www.instagram.com/ilhammsptra_/',
+        date: '2026-02-18',
+        views: 'Follow @ilhammsptra_',
+    },
+    {
+        id: 'soc-003',
+        platform: 'github',
+        title: 'Open Source Repositories on GitHub: @ilhamsptr1',
+        description: 'Explore the source code, experimental commits, and frontend libraries of my public projects. Contributions and star ratings are always welcome!',
+        url: 'https://github.com/ilhamsptr1',
+        date: '2026-02-10',
+        views: 'github.com/ilhamsptr1',
+    },
+    {
+        id: 'soc-004',
+        platform: 'blog',
+        title: 'Academic Journey: Informatika @ Universitas Gunadarma',
+        description: 'Reflections and highlights as an Informatics student at Universitas Gunadarma. Covering data structures, algorithms, software engineering principles, and bridging theory with production-grade web applications.',
+        url: 'https://www.gunadarma.ac.id/',
+        date: '2025-09-01',
+        views: 'Univ. Gunadarma',
     },
 ];
 
-const ytTextures = ['/textures/studio/tvfront_filmikprojektdlamultiego.webp', '/textures/studio/tvfront_filmikedytowaniezdjec.webp'];
-const ytPaintedTextures = ['/textures/studio/tvfront_filmikprojektdlamultiego_painted.webp', '/textures/studio/tvfront_filmikedytowaniezdjec_painted.webp'];
-const blogTextures = ['/textures/studio/monitorfront_postnafbdoublewinner.webp'];
-const blogPaintedTextures = ['/textures/studio/monitorfront_postnafbdoublewinner_painted.webp'];
-const ttTextures = ['/textures/studio/phonefront_followmeontiktok.webp'];
-const ttPaintedTextures = ['/textures/studio/phonefront_followmeontiktok_painted.webp'];
-
-let ytIdx = 0, blogIdx = 0, ttIdx = 0;
-let ytPIdx = 0, blogPIdx = 0, ttPIdx = 0;
-
+// Fallback textures for each shape
 export const CONTENT_DATA = RAW_CONTENT_DATA.map((item) => {
+    const shape = PLATFORM_CONFIG[item.platform]?.shape || 'monitor';
     return {
         ...item,
         frontTexture: item.frontTexture || (
-            item.platform === 'youtube' ? ytTextures[ytIdx++ % ytTextures.length] :
-                item.platform === 'blog' ? blogTextures[blogIdx++ % blogTextures.length] :
-                    ttTextures[ttIdx++ % ttTextures.length]
+            shape === 'tv' ? '/textures/studio/tv_front.webp' :
+                shape === 'monitor' ? '/textures/studio/monitor_front.webp' :
+                    '/textures/studio/phone_front.webp'
         ),
         paintedFrontTexture: item.paintedFrontTexture || (
-            item.platform === 'youtube' ? ytPaintedTextures[ytPIdx++ % ytPaintedTextures.length] :
-                item.platform === 'blog' ? blogPaintedTextures[blogPIdx++ % blogPaintedTextures.length] :
-                    ttPaintedTextures[ttPIdx++ % ttPaintedTextures.length]
+            shape === 'tv' ? '/textures/studio/tv_front_painted.webp' :
+                shape === 'monitor' ? '/textures/studio/monitor_front_painted.webp' :
+                    '/textures/studio/phone_front_painted.webp'
         )
     };
 });

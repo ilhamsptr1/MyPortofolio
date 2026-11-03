@@ -21,7 +21,7 @@ const ROOM_CONFIG = {
 
 const SUBTITLES = {
     'THE GALLERY': 'Explore my creative projects',
-    'THE STUDIO': 'Watch behind the scenes',
+    'THE STUDIO': 'Tech Lab, Case Studies & Social Hub',
     'DEV DIARY': 'My development journey',
     "LET'S CONNECT": 'Get in touch with me'
 };
@@ -308,3 +308,4 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
 RoomInterior.displayName = 'RoomInterior';
 
 export default RoomInterior;
+
