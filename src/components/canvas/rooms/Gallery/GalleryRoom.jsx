@@ -38,8 +38,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'i-photo-booth',
         title: 'I-PHOTO BOOTH',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
+        front: '/textures/gallery/project_1.webp',
+        painted: '/textures/gallery/project_1_painted.webp',
         url: 'https://i-photo-booth-chi.vercel.app/',
         description: 'Interactive web-based photo booth application featuring live camera capture, custom photo strips, retro filters, and instant downloads.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -47,8 +47,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'prediksi-bola',
         title: 'PREDIKSI BOLA',
-        front: '/textures/gallery/timberkittyprzod.webp',
-        painted: '/textures/gallery/timberkittyprzod_painted.webp',
+        front: '/textures/gallery/project_2.webp',
+        painted: '/textures/gallery/project_2_painted.webp',
         url: 'https://prediksibola-two.vercel.app/',
         description: 'Comprehensive football match prediction platform with live match schedules, team statistics, Head-to-Head analytics, and score forecasts.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -56,8 +56,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'laporan-keuangan',
         title: 'LAPORAN KEUANGAN',
-        front: '/textures/gallery/youngmultiprzod.webp',
-        painted: '/textures/gallery/youngmultiprzod_painted.webp',
+        front: '/textures/gallery/project_3.webp',
+        painted: '/textures/gallery/project_3_painted.webp',
         url: 'https://laporan-keuangan-ivory.vercel.app/',
         description: 'Clean financial reporting dashboard designed to record income and expenses, calculate cash balance, and provide clear financial insights.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/csslogo.webp']
@@ -65,8 +65,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'aplikasi-cuaca',
         title: 'APLIKASI CUACA',
-        front: '/textures/gallery/bioprzod.webp',
-        painted: '/textures/gallery/bioprzod_painted.webp',
+        front: '/textures/gallery/project_4.webp',
+        painted: '/textures/gallery/project_4_painted.webp',
         url: 'https://ilhamsptr1.github.io/cuaca-1/',
         description: 'Real-time weather forecast web app showing current weather conditions, temperature, humidity, and forecasts across multiple cities.',
         techStack: ['/textures/gallery/jslogo.webp', '/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp']
@@ -74,8 +74,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'ultra-milk-promo',
         title: 'ULTRA MILK PROMO',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
+        front: '/textures/gallery/project_5.webp',
+        painted: '/textures/gallery/project_5_painted.webp',
         url: 'https://ilhamsptr1.github.io/ultramilk/',
         description: 'Engaging promotional campaign landing page for Ultra Milk with modern product visuals, interactive cards, and vibrant branding.',
         techStack: ['/textures/gallery/htmllogo.webp', '/textures/gallery/csslogo.webp', '/textures/gallery/jslogo.webp']
@@ -83,8 +83,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'i-rating',
         title: 'I-RATING',
-        front: '/textures/gallery/timberkittyprzod.webp',
-        painted: '/textures/gallery/timberkittyprzod_painted.webp',
+        front: '/textures/gallery/project_6.webp',
+        painted: '/textures/gallery/project_6_painted.webp',
         url: 'https://i-rating.vercel.app/',
         description: 'Modular user feedback and review system with interactive star ratings, comment moderation, and real-time rating distribution.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -92,8 +92,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'ai-news-analyzer',
         title: 'AI NEWS ANALYZER',
-        front: '/textures/gallery/youngmultiprzod.webp',
-        painted: '/textures/gallery/youngmultiprzod_painted.webp',
+        front: '/textures/gallery/project_7.webp',
+        painted: '/textures/gallery/project_7_painted.webp',
         url: 'https://ai-news-analyzer-five.vercel.app/',
         description: 'Intelligent news aggregator powered by AI NLP for instant article summarization, sentiment classification, and key entity extraction.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -101,8 +101,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'converthub',
         title: 'CONVERTHUB',
-        front: '/textures/gallery/bioprzod.webp',
-        painted: '/textures/gallery/bioprzod_painted.webp',
+        front: '/textures/gallery/project_8.webp',
+        painted: '/textures/gallery/project_8_painted.webp',
         url: 'https://converthub-flax.vercel.app/',
         description: 'All-in-one file converter and utility suite offering fast client-side format conversions for images, documents, and currency.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -110,8 +110,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'imovie',
         title: 'IMOVIE',
-        front: '/textures/gallery/monetuneprzod.webp',
-        painted: '/textures/gallery/monetuneprzod_painted.webp',
+        front: '/textures/gallery/project_9.webp',
+        painted: '/textures/gallery/project_9_painted.webp',
         url: 'https://imovie.web.id/',
         description: 'Modern movie and TV series streaming portal featuring Full HD media playback, Indonesian subtitles, watchlist, and category filtering.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']
@@ -119,8 +119,8 @@ const FALLBACK_PROJECTS = [
     {
         id: 'imusic',
         title: 'IMUSIC',
-        front: '/textures/gallery/timberkittyprzod.webp',
-        painted: '/textures/gallery/timberkittyprzod_painted.webp',
+        front: '/textures/gallery/project_10.webp',
+        painted: '/textures/gallery/project_10_painted.webp',
         url: 'https://imusic.web.id/',
         description: 'Sleek online music streaming player featuring high-fidelity audio playback, synchronized lyrics, playlist management, and responsive UI.',
         techStack: ['/textures/gallery/reactlogo.webp', '/textures/gallery/tailwindlogo.webp', '/textures/gallery/jslogo.webp']

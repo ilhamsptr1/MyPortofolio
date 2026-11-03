@@ -137,6 +137,16 @@ export const GALLERY_TEXTURES_BASE = [
 
 export const GALLERY_TEXTURES_VERSIONED = [
     // Project cards
+    'project_1',
+    'project_2',
+    'project_3',
+    'project_4',
+    'project_5',
+    'project_6',
+    'project_7',
+    'project_8',
+    'project_9',
+    'project_10',
     'monetuneprzod',
     'timberkittyprzod',
     'youngmultiprzod',
@@ -337,3 +347,4 @@ export const filterTexturesByDevice = (list, usePainted) => {
         return usePainted;
     });
 };
+
